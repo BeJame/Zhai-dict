@@ -1,5 +1,5 @@
 const config = {
-  projectName: 'zhai-dict',
+  projectName: 'zhai-dict-fe',
   date: '2020-4-26',
   designWidth: 750,
   deviceRatio: {

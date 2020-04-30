@@ -5,7 +5,7 @@ import store from './store'
 
 const App = new Vue({
   store,
-  onShow (options) {
+  onShow (options: any): any {
   },
   render(h) {
     // this.$slots.default 是将要会渲染的页面
