@@ -25,6 +25,7 @@ export default {
 </script>
 
 <style lang="scss">
+$size: 60px;
 #cSpellBox {
   display: flex;
   flex-wrap: wrap;
@@ -33,9 +34,9 @@ export default {
   margin: 0 auto;
   color: #fff;
   .letter-box {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
+    width: $size;
+    height: $size;
+    line-height: $size;
     margin: 10px 20px;
     text-align: center;
     border: 1px solid #fff;
