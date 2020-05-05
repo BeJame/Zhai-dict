@@ -1,23 +1,24 @@
 <template>
   <view id="cKeyboard">
     <view class="first-line line">
-      <view v-for="letter in keys[0]" :key="letter" @tap="handleClickLetter(letter)" class="letter" hover-class="letter-hover"
-        >{{ letter }}</view>
+      <view v-for="letter in keys[0]" :key="letter" @tap="handleTapLetter(letter)" @longpress="handleLongPressLetter(letter)"
+        class="letter" hover-class="letter-hover">{{ letter }}</view>
     </view>
     <view class="second-line line">
-      <view v-for="letter in keys[1]" :key="letter" @tap="handleClickLetter(letter)" class="letter" hover-class="letter-hover"
-        >{{ letter }}</view>
+      <view v-for="letter in keys[1]" :key="letter" @tap="handleTapLetter(letter)" @longpress="handleLongPressLetter(letter)"
+        class="letter" hover-class="letter-hover">{{ letter }}</view>
     </view>
     <view class="third-line line">
-      <view v-for="letter in keys[2]" :key="letter" @tap="handleClickLetter(letter)" class="letter" hover-class="letter-hover"
-        :class="{'letter-special': letter === '-' || letter === '←'}">{{ letter }}</view>
+      <view v-for="letter in keys[2]" :key="letter" @tap="handleTapLetter(letter)" @longpress="handleLongPressLetter(letter)"
+        class="letter" hover-class="letter-hover" :class="{'letter-special': letter === '-' || letter === '←'}">{{ letter }}</view>
     </view>
   </view>
 </template>
 
 <script>
 const EVENT = {
-  click: 'click'
+  tap: 'tap',
+  longpress: 'longpress'
 }
 
 const keys = [
@@ -35,9 +36,13 @@ export default {
     }
   },
   methods: {
-    handleClickLetter(ch) {
+    handleTapLetter(ch) {
       console.log('tap ' + ch)
-      this.$emit(EVENT.click, ch)
+      this.$emit(EVENT.tap, ch)
+    },
+    handleLongPressLetter(ch) {
+      console.log('longpress ' + ch)
+      this.$emit(EVENT.longpress, ch)
     }
   },
 }
@@ -45,7 +50,7 @@ export default {
 
 <style lang="scss">
 #cKeyboard {
-  width: 650px;
+  width: 700px;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
@@ -58,18 +63,20 @@ export default {
 
   .letter {
     display: inline-block;
-    width: 50px;
+    box-sizing: border-box;
+    width: 60px;
     text-align: center;
-    padding: 15px 0;
+    height: 80px;
+    line-height: 80px;
     vertical-align: middle;
     border: 1px solid #fff;
     border-radius: 10px;
   }
   view.letter-hover {
-    background: #939699;
+    background: #9396999f;
   }
   .letter-special {
-    background: #303336;
+    background: #30333681;
   }
 }
 </style>

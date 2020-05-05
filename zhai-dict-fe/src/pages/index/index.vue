@@ -1,12 +1,13 @@
 <template>
-  <view id="pIndex" @keypress="handleKeypress">
+  <view id="pIndex" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
+    <view class="bg"></view>
     <view class="header">
       <text class="go-back">&lt;</text>
     </view>
     <view class="assist-buttons">
       <text class="jump" v-if="state === 1" @tap="handleTapJump">跳过</text>
       <text class="tips" v-if="state === 2" @tap="handleTapTips">提示</text>
-      <text class="collect" v-if="state !== 2" @tap="handleTapCollect">收藏</text>
+      <text class="collect" v-if="state === 1 || state === 3" @tap="handleTapCollect">收藏</text>
     </view>
     <view class="body" :class="{'body-large': state !== 2}">
       <view class="word" v-if="state !== 2">{{ word }}</view>
@@ -14,12 +15,13 @@
       <view class="translation">{{ translation }}</view>
     </view>
     <view class="footer">
-      <view class="main-buttons" v-if="state === 1">
-        <button class="known" @tap="handleTapKnown" hover-class="main-buttons-hover">已掌握</button>
-        <button class="start" @tap="handleTapStart" hover-class="main-buttons-hover">开始拼写</button>
+      <view class="main-buttons">
+        <button class="known" @tap="handleTapKnown" hover-class="main-buttons-hover" v-if="state === 1">已掌握</button>
+        <button class="start" @tap="handleTapStart" hover-class="main-buttons-hover" v-if="state === 1">开始拼写</button>
+        <button class="next" @tap="handleTapNext" hover-class="main-buttons-hover" v-if="state === 3">下一个</button>
       </view>
       <SpellBox :length="word.length" :content="userInput" v-if="state === 2"></SpellBox>
-      <Keyboard @click="handleTapKb" v-if="state === 2"></Keyboard>
+      <Keyboard @tap="handleTapKb" @longpress="handleLongPressKb" v-if="state === 2"></Keyboard>
       <view class="progress">
         0/100
       </view>
@@ -47,7 +49,7 @@ export default {
     return {
       state: STATE.beforeSpell,
 
-      word: 'shitshitshit',
+      word: 'shithole',
       translation: 'n.狗*，垃圾 v.吃*n.狗*，垃圾 v.吃*n.狗*，垃圾 v.吃*',
       userInput: '',
       bgRatio: 0,
@@ -71,8 +73,16 @@ export default {
       if (this.word.startsWith(input)) {
         this.bgRatio = input.length / this.word.length
         if (this.word.length === input.length) {
-          this.state = STATE.spelled
+          setTimeout(() => {
+            this.state = STATE.spelled
+          }, 400);
         }
+      }
+    },
+    handleLongPressKb(ch) {
+      if (ch === '←') {
+        this.userInput = ''
+        this.bgRatio = 0
       }
     },
     handleTapKnown() {
@@ -80,6 +90,9 @@ export default {
     },
     handleTapStart() {
       this.state = STATE.spelling
+    },
+    handleTapNext() {
+      this.getNextWord()
     },
     handleTapReturn() {
 
@@ -93,7 +106,10 @@ export default {
     handleTapCollect() {
 
     },
-    onFinishSpelling() {
+    getNextWord() {
+      this.userInput = '',
+      this.bgRatio = 0,
+      this.state = STATE.beforeSpell
 
     },
 
@@ -102,7 +118,6 @@ export default {
     }
   },
   created() {
-    global.aaa = this.$data
   },
 }
 </script>
@@ -117,8 +132,18 @@ export default {
   min-height: 100vh;
   padding: 20px;
   background: #000;
+  transition: background-color .5s;
+  .bg {
+    position: fixed;
+    background-image: url("https://img2.woyaogexing.com/2020/05/04/4de96356ee1e4497a575ac1fc6707f7d!1080x1920.jpeg");
+    background-size: contain;
+    height: 100%;
+    width: 100%;
+    margin: -20px;
+    z-index: -1;
+  }
   .assist-buttons {
-    margin-right: 30px;
+    margin-left: 30px;
     color: #fff;
     text-align: right;
   }
@@ -155,11 +180,15 @@ export default {
     .known {
       @include simpleButton(#fff);
       width: 200px;
-
     }
     .start {
       @include simpleButton(#fff);
       width: 350px;
+    }
+    .next {
+      @include simpleButton(#fff);
+      width: 400px;
+      margin: 0 auto;
     }
   }
   .main-buttons-hover {
@@ -167,6 +196,9 @@ export default {
   }
   #cSpellBox {
     margin-bottom: 130px;
+  }
+  #cKeyboard {
+    margin-bottom: 40px;
   }
   .progress {
     text-align: center;
