@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import Taro from '@tarojs/taro'
 import Keyboard from './components/Keyboard.vue'
 import SpellBox from './components/SpellBox.vue'
 
@@ -49,8 +50,9 @@ export default {
     return {
       state: STATE.beforeSpell,
 
-      word: 'shithole',
-      translation: 'n.狗*，垃圾 v.吃*n.狗*，垃圾 v.吃*n.狗*，垃圾 v.吃*',
+      word: 'abandon',
+      translation: ' n. 放纵\nvt. 放弃,遗弃,沉溺',
+
       userInput: '',
       bgRatio: 0,
     }
@@ -101,7 +103,11 @@ export default {
 
     },
     handleTapTips() {
-
+      Taro.showToast({
+        title: this.word,
+        duration: 1000,
+        icon: 'none'
+      })
     },
     handleTapCollect() {
 
