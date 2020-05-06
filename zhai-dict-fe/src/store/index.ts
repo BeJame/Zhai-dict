@@ -10,10 +10,10 @@ import user from './modules/user'
 Vue.use(Vuex)
 
 const getters = {
-  getNewWords(amount: number): Array<any> {
+  getNewWords: (state: any) => (amount: number): Array<any> => {
     return []
   },
-  getRecitingWords(amount: number): Array<any> {
+  getRecitingWords: (state: any) => (amount: number): Array<any> => {
     return []
   },
   getAllLearned() {

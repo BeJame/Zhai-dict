@@ -76,7 +76,8 @@ export default {
     background: #9396999f;
   }
   .letter-special {
-    background: #30333681;
+    font-weight: bold;
+    background: #b3b6b931;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from './store'
 
-// Vue.config.productionTip = false
+Vue.config.productionTip = false
 
 const App = new Vue({
   store,
