@@ -1,7 +1,7 @@
 package org.cloudplayer.neetwords.service;
 
-import com.example.zhaidict.mapper.UserMapper;
-import com.example.zhaidict.pojo.User;
+import org.cloudplayer.neetwords.mapper.UserMapper;
+import org.cloudplayer.neetwords.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

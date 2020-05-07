@@ -1,6 +1,6 @@
 package org.cloudplayer.neetwords.mapper;
 
-import com.example.zhaidict.pojo.User;
+import org.cloudplayer.neetwords.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

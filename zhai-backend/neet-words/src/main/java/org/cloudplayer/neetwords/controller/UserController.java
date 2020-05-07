@@ -1,10 +1,10 @@
 package org.cloudplayer.neetwords.controller;
 
-import com.example.zhaidict.pojo.User;
-import com.example.zhaidict.service.CollectionService;
-import com.example.zhaidict.service.ImageTypeService;
-import com.example.zhaidict.service.UserService;
-import com.example.zhaidict.util.JsonUtil;
+import org.cloudplayer.neetwords.pojo.User;
+import org.cloudplayer.neetwords.service.CollectionService;
+import org.cloudplayer.neetwords.service.ImageTypeService;
+import org.cloudplayer.neetwords.service.UserService;
+import org.cloudplayer.neetwords.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package org.cloudplayer.neetwords.mapper;
 
-import com.example.zhaidict.pojo.ImageType;
+import org.cloudplayer.neetwords.pojo.ImageType;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
