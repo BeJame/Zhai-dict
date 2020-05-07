@@ -1,10 +1,10 @@
 package org.cloudplayer.neetwords.pojo;
 
-public class Book {
+public class Collection {
     private int id;
     private String name;
-    private int num;
-    private String address;
+    private User user;
+    private int status;//初始化为0，删除收藏设置1
 
     public int getId() {
         return id;
@@ -22,19 +22,19 @@ public class Book {
         this.name = name;
     }
 
-    public int getNum() {
-        return num;
+    public User getUser() {
+        return user;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getAddress() {
-        return address;
+    public int getStatus() {
+        return status;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

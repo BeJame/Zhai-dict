@@ -5,9 +5,11 @@ public class User {
     private String name;
     private String password;
     private String avatar;
-    private int plan;
-    private int learned;
-    private int bookid;
+    private int amonutPerDay;
+    private int bookId;
+    private int timesToChangeBackground;
+    private int durationKeepAfterRecite;
+    private int tipsDuration;
 
     public int getId() {
         return id;
@@ -41,27 +43,43 @@ public class User {
         this.avatar = avatar;
     }
 
-    public int getPlan() {
-        return plan;
+    public int getAmonutPerDay() {
+        return amonutPerDay;
     }
 
-    public void setPlan(int plan) {
-        this.plan = plan;
+    public void setAmonutPerDay(int amonutPerDay) {
+        this.amonutPerDay = amonutPerDay;
     }
 
-    public int getLearned() {
-        return learned;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setLearned(int learned) {
-        this.learned = learned;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public int getBookid() {
-        return bookid;
+    public int getTimesToChangeBackground() {
+        return timesToChangeBackground;
     }
 
-    public void setBookid(int bookid) {
-        this.bookid = bookid;
+    public void setTimesToChangeBackground(int timesToChangeBackground) {
+        this.timesToChangeBackground = timesToChangeBackground;
+    }
+
+    public int getDurationKeepAfterRecite() {
+        return durationKeepAfterRecite;
+    }
+
+    public void setDurationKeepAfterRecite(int durationKeepAfterRecite) {
+        this.durationKeepAfterRecite = durationKeepAfterRecite;
+    }
+
+    public int getTipsDuration() {
+        return tipsDuration;
+    }
+
+    public void setTipsDuration(int tipsDuration) {
+        this.tipsDuration = tipsDuration;
     }
 }

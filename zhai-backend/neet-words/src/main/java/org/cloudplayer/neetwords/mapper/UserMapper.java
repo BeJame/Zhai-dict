@@ -7,11 +7,14 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
-    @Select("select ur_id as id,ur_name as name,ur_password as password,ur_avatar as avatar," +
-            " ur_daily_plan as plan, ur_learned as learned, ur_bo_id as bookid from t_user where ur_id=#{id}")
-    User get(int id);
 
-    @Update("update t_user set ur_name = #{name},ur_password=#{password},ur_avatar=#{avatar}," +
-            "ur_daily_plan = #{plan}, ur_learned = #{learned}, ur_bo_id = #{bookid} where ur_id=#{id}")
+    @Select("select ur_id as id,ur_name as name,ur_password as password,ur_avatar as avatar, " +
+            "ur_daily_amount as amonutPerDay, ur_bo_id as bookId, ur_change_times as timesToChangeBackground, " +
+            "ur_keep_time as durationKeepAfterRecite, ur_tip_time as tipsDuration from t_user where ur_id=#{id}")
+    User getUserById(int id);
+
+    @Update("update t_user set ur_daily_amount = #{amonutPerDay}, ur_bo_id = #{bookId}, " +
+            "ur_change_times = #{timesToChangeBackground}, ur_keep_time = #{durationKeepAfterRecite}, " +
+            "ur_tip_time = #{tipsDuration} where ur_id=#{id}")
     void update(User user);
 }
