@@ -6,7 +6,7 @@ const state = () => ({
     nickname: ''
   },
   config: {
-    amonutPerDay:100, //每日背诵数量
+    amountPerDay: 100, //每日背诵数量
     bookId: 123, //单词书Id
   },
   settings: {

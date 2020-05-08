@@ -28,3 +28,33 @@ export const logError = (name: string, action: string, info: string = 'empty') =
     info = JSON.stringify(info)
   }
 }
+
+/**
+ * [min, max]中取amount个整数，只取一个时返回number
+ * @param min 随机数下限（包括min）
+ * @param max 随机数上限（包括max）
+ * @param amount 取随机数的数量
+ * @param allowRepeat 是否允许重复
+ */
+export const getRandomInt = (min: number, max: number, amount = 1, allowRepeat = false) => {
+  const gap = max - min + 1
+  if (!allowRepeat && amount > gap) {
+    throw new Error('区间内没有足够的整数')
+  }
+  if (amount === 1) {
+    const result = Math.floor(Math.random() * gap) + min
+    return result
+  } else if (allowRepeat) {
+    const result: Array<number> = []
+    for(let i = 0; i < amount; i++) {
+      result.push(Math.floor(Math.random() * gap) + min)
+    }
+    return result
+  } else {
+    const result: Set<number> = new Set()
+    while(result.size < amount) {
+      result.add(Math.floor(Math.random() * gap) + min)
+    }
+    return Array.from(result)
+  }
+}

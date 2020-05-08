@@ -1,6 +1,8 @@
+import vocabulary from '../../../assets/vocabulary'
+
 // initial state
 const state = () => ({
-  vocabulary: {},
+  vocabulary,
   imageList: []
 })
 
