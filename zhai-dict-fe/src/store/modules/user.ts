@@ -6,7 +6,7 @@ const state = () => ({
     nickname: ''
   },
   config: {
-    amountPerDay: 100, //每日背诵数量
+    amountPerDay: 10, //每日背诵数量
     bookId: 123, //单词书Id
   },
   settings: {
@@ -24,11 +24,7 @@ const getters = {}
 
 // actions
 const actions = {
-  // getAllProducts ({ commit }) {
-  //   shop.getProducts(products => {
-  //     commit('setProducts', products)
-  //   })
-  // }
+
 }
 
 // mutations

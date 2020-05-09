@@ -1,14 +1,14 @@
 <template>
-  <view id="pIndex" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
+  <view id="pSpell" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
     <view class="bg"></view>
     <view class="header">
-      <text class="go-back">&lt;</text>
+      <text class="go-back" @tap="handleTapReturn">&lt;</text>
     </view>
     <view class="assist-buttons">
-      <text class="jump" v-if="state === 1" @tap="handleTapJump">跳过</text>
-      <text class="tips" v-if="state === 2" @tap="handleTapTips">提示</text>
+      <text class="jump" v-show="state === 1" @tap="handleTapJump">跳过</text>
+      <text class="tips" v-show="state === 2" @tap="handleTapTips">提示</text>
       <!-- NOTE: 换行会导致text节点内容也换行 -->
-      <text class="collect" v-if="true" @tap="handleTapCollect(isWordCollected)">{{ isWordCollected ? '取消收藏' : '收藏'}}</text>
+      <text class="collect" v-show="state === 1 || state === 3" @tap="handleTapCollect(isWordCollected)">{{ isWordCollected ? '取消收藏' : '收藏'}}</text>
     </view>
     <view class="body" :class="{'body-large': state !== 2}">
       <view class="word" v-if="state !== 2">{{ display.word }}</view>
@@ -24,7 +24,7 @@
       <SpellBox :length="display.word.length" :content="userInput" v-if="state === 2"></SpellBox>
       <Keyboard @tap="handleTapKb" @longpress="handleLongPressKb" v-if="state === 2"></Keyboard>
       <view class="progress">
-        0/100
+        {{ stat.learned }} / {{ stat.total }}
       </view>
     </view>
   </view>
@@ -42,7 +42,7 @@ const STATE =  {
 }
 
 export default {
-  name: 'Index',
+  name: 'pSpell',
   components: {
     Keyboard,
     SpellBox
@@ -55,10 +55,18 @@ export default {
         word: 'aa',
         translation: ' n. 放纵\nvt. 放弃,遗弃,沉溺',
         announce: '',
+        mastered: false
+      },
+
+      waitingList: [],
+      stat: {
+        learned: 0,
+        total: 0
       },
 
       userInput: '',
       bgRatio: 0,
+      // bgCount: 0,
     }
   },
   computed: {
@@ -84,6 +92,7 @@ export default {
       if (this.display.word.startsWith(input)) {
         this.bgRatio = input.length / this.display.word.length
         if (this.display.word.length === input.length) {
+          this.display.mastered = true
           setTimeout(() => {
             this.state = STATE.spelled
           }, 400);
@@ -103,10 +112,38 @@ export default {
       this.state = STATE.spelling
     },
     handleTapNext() {
-      this.getNextWord()
+      // 初始化
+      this.userInput = '',
+      this.bgRatio = 0,
+      this.state = STATE.beforeSpell
+      // 对前一个单词做处理
+      const word = this.waitingList.shift()
+      if (!this.display.mastered) {
+        this.waitingList.push(word)
+      } else {
+        this.stat.learned += 1
+      }
+      this.$store.commit('progress/setTodayProgress', {
+        [this.display.word]: this.display.mastered
+      })
+      if (this.waitingList.length) {
+        // 显示下一个单词
+        this.display = this.waitingList[0]
+        this.display.mastered = false
+      } else {
+        Taro.showModal({
+          title: '完成',
+          content: '您已经背完了今天的单词，可以休息一下啦~',
+          showCancel: false,
+          success() {
+            Taro.navigateBack()
+          }
+        })
+      }
+      // TODO:处理背景图片
     },
     handleTapReturn() {
-
+      Taro.navigateBack()
     },
     handleTapJump() {
 
@@ -121,18 +158,36 @@ export default {
     handleTapCollect(isCollected) {
       this.$store.commit(isCollected ? 'user/cancelCollection' : 'user/addCollection', this.display.word)
     },
-    getNextWord() {
-      this.userInput = '',
-      this.bgRatio = 0,
-      this.state = STATE.beforeSpell
-
-    },
 
 
     handleKeypress(e) {
     }
   },
   created() {
+    // TODO:尚未检查、处理跨日期
+    console.log(this.$store.state)
+    const target = this.$store.state.progress.todayWords,
+      progress = this.$store.state.progress.todayProgress,
+      learned = Object.entries(progress).filter(item => item[1] === true).map(item => item[0])
+    this.stat = {
+      total: target.length,
+      learned: learned.length
+    }
+    this.waitingList = target.filter(item => !learned.includes(item.word))
+    console.log(this.$data)
+    if (this.waitingList.length === 0) {
+      Taro.showModal({
+        title: '提示',
+        content: '您已经背完了今天的单词，希望你劳逸结合，明日再战~',
+        showCancel: false,
+        success() {
+          Taro.navigateBack()
+        }
+      })
+    } else {
+      this.display = this.waitingList[0]
+      this.display.mastered = false
+    }
   },
 }
 </script>
@@ -140,7 +195,7 @@ export default {
 <style lang="scss">
 @import "../../../styles/common";
 
-#pIndex {
+#pSpell {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

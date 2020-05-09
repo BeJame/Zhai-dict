@@ -1,6 +1,7 @@
 export default {
   pages: [
-    'pages/index/index'
+    'pages/home/home',
+    'pages/spell/spell'
   ],
   window: {
     backgroundTextStyle: 'light',
