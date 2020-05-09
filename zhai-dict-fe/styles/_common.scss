@@ -3,3 +3,9 @@
   color: $color;
   border: 1px solid $color;
 }
+
+@mixin commonButton($bgColor, $color) {
+  background: $bgColor;
+  color: $color;
+  border: none;
+}
