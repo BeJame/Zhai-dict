@@ -9,3 +9,8 @@
   color: $color;
   border: none;
 }
+
+@mixin simpleIcon($size) {
+  width: $size;
+  height: $size;
+}

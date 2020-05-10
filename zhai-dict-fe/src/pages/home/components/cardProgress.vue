@@ -33,5 +33,6 @@ export default {
 #cCardProgress {
   height: 10px;
   border-radius: 10px;
+  overflow: hidden;
 }
 </style>

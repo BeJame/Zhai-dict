@@ -1,12 +1,12 @@
 <template>
   <view id="pHome">
     <view class="header">
-      <image src="../../../assets/images/dots.png" id="decorationLeft" mode="aspectFit" />
-      <view class="welcome-text">5月9日 晴 宜上分</view>
+      <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
+      <view class="welcome-text">5月9日 晴 宜赶工期/忌摸鱼</view>
       <view class="check-in-record">
         打卡日历
       </view>
-      <image src="../../../assets/images/icon-2circle.png" id="decorationRight" mode="aspectFit" />
+      <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
     <view class="body">
       <view class="task-wrapper">
@@ -40,7 +40,10 @@
 
 <script>
 import Taro from '@tarojs/taro'
-import cardProgress from "./components/cardProgress.vue";
+import cardProgress from "./components/cardProgress.vue"
+
+import dot from '../../../assets/images/dots.png'
+import decorationCircle from '../../../assets/images/icon-2circle.png'
 
 export default {
   name: 'pHome',
@@ -49,7 +52,10 @@ export default {
   },
   data() {
     return {
-
+      image: {
+        dot,
+        decorationCircle
+      }
     }
   },
   methods: {
@@ -72,7 +78,7 @@ $mainBg: #87e2d0;
   .header {
     position: relative;
     margin-bottom: 60px;
-    padding: 1px; /* 避免被子元素margin影响 */
+    padding: 0.1px; /* 避免被子元素margin影响 */
     .welcome-text {
       margin-top: 100px;
       margin-left: 30px;
@@ -89,7 +95,7 @@ $mainBg: #87e2d0;
       font-size: 24px;
       text-align: center;
     }
-    #decorationLeft{
+    #decorationLeft {
       position: absolute;
       left: 0;
       top: 0;
