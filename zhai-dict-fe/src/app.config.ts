@@ -1,8 +1,11 @@
 export default {
   pages: [
-    'pages/me/me',
     'pages/home/home',
-    'pages/spell/spell'
+    'pages/me/me',
+    'pages/spell/spell',
+    'pages/about/about',
+    'pages/history/history',
+    'pages/collection/collection'
   ],
   window: {
     backgroundTextStyle: 'light',

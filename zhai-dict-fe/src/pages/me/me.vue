@@ -3,42 +3,42 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="user-info">
-        <image :src="image.dot" id="avatar" mode="aspectFit" />
-        <view id="name">BeJame</view>
+        <image src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/打卡/u103.svg?token=e2f9f754934eb025aef8f3241326e9826f3a1cd58287c16a2164646a54c36134" id="avatar" mode="aspectFit" />
+        <view id="name">Be、Jame</view>
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
     <view class="buttons-wrapper">
-      <view class="button">
-        <image class="icon"></image>
+      <navigator class="button" url="../collection/collection">
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u305.png?token=c8422f8265922bcb5d93cc02a457bcd1fd3b48b5f037119a570a1224b3dbe626"></image>
         <text class="type">单词收藏</text>
-      </view>
-      <view class="button">
-        <image class="icon"></image>
+      </navigator>
+      <navigator class="button" url="../history/history">
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u304.png?token=a669b5d4eb6a1431ba835bb67b4d7e7e29a1eaecdfac7bbb3ab59392d2e46c28"></image>
         <text class="type">学习记录</text>
-      </view>
-      <view class="button">
-        <image class="icon"></image>
+      </navigator>
+      <view class="button" @tap="handleTapDev">
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u302.png?token=2e969713469e44e317bb158871e9f0602ffb5fed6c10d4e458a3247a747b4884"></image>
         <text class="type">笔记练习</text>
       </view>
     </view>
     <view class="columns-wrapper">
-      <view class="column">
+      <navigator class="column">
         <text class="item">自定义设置</text>
         <image class="icon" :src="image.iconRight" />
-      </view>
-      <view class="column">
+      </navigator>
+      <navigator class="column">
         <text class="item">排行榜</text>
         <image class="icon" :src="image.iconRight" />
-      </view>
+      </navigator>
       <button plain open-type="feedback" class="column feedback">
         <text class="item">意见反馈</text>
         <image class="icon" :src="image.iconRight" />
       </button>
-      <view class="column">
+      <navigator url="../about/about" class="column">
         <text class="item">关于我们</text>
         <image class="icon" :src="image.iconRight" />
-      </view>
+      </navigator>
     </view>
   </view>
 </template>
@@ -64,7 +64,13 @@ export default {
     }
   },
   methods: {
-
+    handleTapDev() {
+      Taro.showModal({
+        title: '开发中',
+        showCancel: false,
+        content: '开发中，请等待...'
+      })
+    }
   },
 }
 </script>
@@ -120,8 +126,8 @@ export default {
       align-items: center;
     }
     .icon {
-      @include simpleIcon(100px);
-      background: #eee;
+      @include simpleIcon(80px);
+      // background: #eee;
       margin-bottom: 30px;
     }
   }

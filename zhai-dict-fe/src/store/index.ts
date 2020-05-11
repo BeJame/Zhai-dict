@@ -14,14 +14,16 @@ const getters = {
   // 获取已学习完的单词，按默认顺序
   getLearnedWords: (state: any) => (count?: number, start?: number) => {
     start = start || 0
-    const learned = state.progress.totalProgress.find((item: any) => item.level === 4)
+    const learned = state.progress.totalProgress.find((item: any) => item.level === 4) || []
     let result: Array<any> = []
+    console.log('learned', learned)
     if (count) {
       result = learned.slice(start, start + count)
     } else {
       result = learned
     }
     // 填充中文含义及发音
+    console.log('learned', result)
     return result.map((item: any) => {
       const wordData = state.resource.vocabulary.find((item2: any) => item2.content === item.word)
       return {
@@ -33,7 +35,7 @@ const getters = {
   },
   // 获取尚未学习的单词，不给定start时为随机获取count个单词
   getNotLearnWords: (state: any) => (count: number, start?: number) => {
-    const notLearn: Array<any> = state.progress.totalProgress.filter((item: any) => item.level === 0)
+    const notLearn: Array<any> = state.progress.totalProgress.filter((item: any) => item.level === 0) || []
     count = Math.min(notLearn.length, count)
     let result: Array<any> = []
     if (start === undefined || start === null) {
@@ -60,7 +62,7 @@ const getters = {
   // 获取正在学习的单词，随机顺序【暂时】，获取到的数量可能小于count
   getLearningWords: (state: any) => (count: number, start?: number) => {
     start = start || 0
-    const learning: Array<any> = state.progress.totalProgress.filter((item: any) => item.level !== 0 && item.level !== 4)
+    const learning: Array<any> = state.progress.totalProgress.filter((item: any) => item.level !== 0 && item.level !== 4) || []
     count = Math.min(learning.length, count)
     let result: Array<any> = []
     if (start === undefined || start === null) {
@@ -91,7 +93,7 @@ const getters = {
   // 读取今天的单词
   getTodayWords: (state: any, getter: any) => {
     return state.todayWords
-  }
+  },
 }
 
 

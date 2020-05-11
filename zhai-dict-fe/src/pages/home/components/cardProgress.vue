@@ -10,7 +10,7 @@ export default {
   props: {
     progress: Number,
     color: String,
-    blankColor: String
+    blankColor: String,
   },
   computed: {
     filledStyle() {

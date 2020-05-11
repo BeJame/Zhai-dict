@@ -20,7 +20,12 @@ const state = () => ({
 })
 
 // getters
-const getters = {}
+const getters = {
+  // 获取指定数量收藏单词
+  getCollectionWords: (state: any) => (start: number, count: number) => {
+    return state.user.collection.slice(start, start + count)
+  }
+}
 
 // actions
 const actions = {

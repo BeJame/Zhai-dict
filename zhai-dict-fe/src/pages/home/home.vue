@@ -24,13 +24,13 @@
       </view>
       <view class="book-card">
         <text class="title">普通单词</text>
-        <view class="history">记录</view>
+        <view class="history" @tap="handleTapHistory">记录</view>
         <view class="progress-area">
           <view class="progress-text">
             <text>已完成1%</text>
-            <text>2/1111词</text>
+            <text>3/1095</text>
           </view>
-          <cardProgress :progress="15" color="#fff" blankColor="#ffffff60"></cardProgress>
+          <cardProgress :progress="1" color="#fff" blankColor="#ffffff60"></cardProgress>
         </view>
       </view>
     </view>
@@ -44,6 +44,7 @@ import cardProgress from "./components/cardProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
+// import cardBg from '../../../assets/images/test-cardBg.png'
 
 export default {
   name: 'pHome',
@@ -54,7 +55,8 @@ export default {
     return {
       image: {
         dot,
-        decorationCircle
+        decorationCircle,
+        // cardBg
       }
     }
   },
@@ -64,6 +66,11 @@ export default {
       Taro.navigateTo({
         url: '../spell/spell'
       })
+    },
+    handleTapHistory() {
+      Taro.navigateTo({
+        url: '../history/history'
+      })
     }
   },
 }
@@ -72,6 +79,7 @@ export default {
 <style lang="scss">
 @import "../../../styles/common";
 $mainBg: #87e2d0;
+$tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
 
 #pHome {
   padding: 30px;
@@ -145,7 +153,10 @@ $mainBg: #87e2d0;
     box-sizing: border-box;
     padding: 30px;
     margin-bottom: 80px;
-    background: #999;
+    background: #f5f5f5;
+    background-image: url('https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     border-radius: 26px;
     color: #fff;
     .title {
