@@ -1,8 +1,8 @@
 <template>
   <view id="pSpell" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
-    <view class="bg"></view>
+    <view class="bg" :style="{'background-image': `url(${bgImageUrl})`}"></view>
     <view class="header">
-      <text class="go-back" @tap="handleTapReturn">&lt;</text>
+      <!-- <text class="go-back" @tap="handleTapReturn">&lt;</text> -->
     </view>
     <view class="assist-buttons">
       <text class="jump" v-show="state === 1" @tap="handleTapJump">跳过</text>
@@ -58,6 +58,16 @@ export default {
         mastered: false
       },
 
+      bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
+      bgImageUrlList: [
+        'https://i.loli.net/2020/05/12/NaEQPBRiFdhGWIt.jpg',
+        'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
+        'https://i.loli.net/2020/05/12/3ImyvKR8CZQ47qd.jpg',
+        'https://i.loli.net/2020/05/12/jTyuo9n5cIePr2U.jpg',
+        'https://i.loli.net/2020/05/12/5rYHLB4ymo7ZX1j.png',
+
+      ],
+
       waitingList: [],
       stat: {
         learned: 0,
@@ -91,11 +101,14 @@ export default {
       const input =  this.userInput
       if (this.display.word.startsWith(input)) {
         this.bgRatio = input.length / this.display.word.length
+          // console.log(1)
         if (this.display.word.length === input.length) {
           this.display.mastered = true
           setTimeout(() => {
             this.state = STATE.spelled
+            // console.log(3)
           }, 400);
+            // console.log(2)
         }
       }
     },
@@ -118,6 +131,10 @@ export default {
       this.state = STATE.beforeSpell
       // 对前一个单词做处理
       const word = this.waitingList.shift()
+      // 更换图片 TODO:temp
+      setTimeout(() => {
+        this.bgImageUrl = this.bgImageUrlList[this.stat.learned % this.bgImageUrlList.length]
+      }, 500);
       if (!this.display.mastered) {
         this.waitingList.push(word)
       } else {
@@ -140,13 +157,16 @@ export default {
           }
         })
       }
-      // TODO:处理背景图片
     },
-    handleTapReturn() {
-      Taro.navigateBack()
-    },
+    // handleTapReturn() {
+    //   Taro.navigateBack()
+    // },
     handleTapJump() {
-
+      const word = this.waitingList.splice(0, 1)[0]
+      this.waitingList.push(word)
+      this.display = this.waitingList[0]
+      // TODO:
+      this.bgImageUrl = this.bgImageUrlList[Math.floor(Math.random * this.bgImageUrlList.length)]
     },
     handleTapTips() {
       Taro.showToast({
@@ -165,7 +185,7 @@ export default {
   },
   created() {
     // TODO:尚未检查、处理跨日期
-    console.log(this.$store.state)
+    console.log('state', this.$store.state)
     const target = this.$store.state.progress.todayWords,
       progress = this.$store.state.progress.todayProgress,
       learned = Object.entries(progress).filter(item => item[1] === true).map(item => item[0])
@@ -173,7 +193,7 @@ export default {
       total: target.length,
       learned: learned.length
     }
-    this.waitingList = target.filter(item => !learned.includes(item.word))
+    this.waitingList = target.filter(item => !learned.includes(item.word)) // FIXME: 使用深拷贝！
     console.log(this.$data)
     if (this.waitingList.length === 0) {
       Taro.showModal({
@@ -206,7 +226,6 @@ export default {
   color: #fff;
   .bg {
     position: fixed;
-    background-image: url("https://img2.woyaogexing.com/2020/05/04/4de96356ee1e4497a575ac1fc6707f7d!1080x1920.jpeg");
     background-size: contain;
     height: 100%;
     width: 100%;

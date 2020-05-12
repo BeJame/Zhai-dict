@@ -3,22 +3,22 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="user-info">
-        <image src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/打卡/u103.svg?token=e2f9f754934eb025aef8f3241326e9826f3a1cd58287c16a2164646a54c36134" id="avatar" mode="aspectFit" />
+        <image src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/打卡/u103.svg?token=e17aebcb7bd6cb9407001fcfc9402e9bc4a3ab1e39b2b79e3d3592008483b00e" id="avatar" mode="aspectFit" />
         <view id="name">Be、Jame</view>
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
     <view class="buttons-wrapper">
       <navigator class="button" url="../collection/collection">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u305.png?token=c8422f8265922bcb5d93cc02a457bcd1fd3b48b5f037119a570a1224b3dbe626"></image>
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u305.png?token=24798333dc5a9f368c9723a3009bb97b65a1b03a9e6f6d61ec3b4dcdad01db63"></image>
         <text class="type">单词收藏</text>
       </navigator>
       <navigator class="button" url="../history/history">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u304.png?token=a669b5d4eb6a1431ba835bb67b4d7e7e29a1eaecdfac7bbb3ab59392d2e46c28"></image>
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u304.png?token=5ea9874a553359506d600fe079a0b7e7f242d3669b445e3e484a9a54981493d3"></image>
         <text class="type">学习记录</text>
       </navigator>
       <view class="button" @tap="handleTapDev">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u302.png?token=2e969713469e44e317bb158871e9f0602ffb5fed6c10d4e458a3247a747b4884"></image>
+        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u302.png?token=6380337594be6e9b5491815fcdcd6ca1e17167d25c1ce6103331f33059750f00"></image>
         <text class="type">笔记练习</text>
       </view>
     </view>

@@ -2,7 +2,7 @@
   <view id="pHome">
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
-      <view class="welcome-text">5月9日 晴 宜赶工期/忌摸鱼</view>
+      <view class="welcome-text">5月12日 晴 宜赶工期/忌摸鱼</view>
       <view class="check-in-record">
         打卡日历
       </view>
@@ -13,11 +13,11 @@
         <view id="todayTask">- 今日任务 -</view>
         <view class="blocks">
           <view class="block">
-            <text class="number">3</text>
+            <text class="number">{{ $store.getters['progress/todayFinished'].length }}</text>
             <text class="type">已完成</text>
           </view>
           <view class="block">
-            <text class="number">10</text>
+            <text class="number">{{ $store.state.progress.todayWords.length }}</text>
             <text class="type">目标数</text>
           </view>
         </view>
@@ -26,11 +26,12 @@
         <text class="title">普通单词</text>
         <view class="history" @tap="handleTapHistory">记录</view>
         <view class="progress-area">
+          <!-- TODO:搞个compute -->
           <view class="progress-text">
-            <text>已完成1%</text>
-            <text>3/1095</text>
+            <text>已完成{{ ($store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length / $store.state.progress.totalProgress.length * 100).toFixed(2) }}%</text>
+            <text>{{ $store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length }}/{{ $store.state.progress.totalProgress.length }}</text>
           </view>
-          <cardProgress :progress="1" color="#fff" blankColor="#ffffff60"></cardProgress>
+          <cardProgress :progress="$store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length / $store.state.progress.totalProgress.length * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
         </view>
       </view>
     </view>
@@ -155,7 +156,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
     margin-bottom: 80px;
     background: #f5f5f5;
     background-image: url('https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png');
-    background-size: contain;
+    background-size: 100% 240px;
     background-repeat: no-repeat;
     border-radius: 26px;
     color: #fff;

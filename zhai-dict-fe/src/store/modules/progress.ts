@@ -33,7 +33,13 @@ const getters = {
   },
   learnedAmount(state: any) {
     return state.totalProgress.filter((item: any) => item.level === 4).length
-  }
+  },
+  todayFinished(state: any) {
+    return Object.entries(state.todayProgress).filter(item => item[1] === true).map(item => item[0])
+  },
+  totalFinished(state: any) {
+    return Object.entries(state.totalProgress).filter(item => item[1] === true).map(item => item[0])
+  },
 }
 
 const actions = {
@@ -42,14 +48,16 @@ const actions = {
       reviewWords: Array<any> = rootGetters['getLearningWords'](Math.floor(amount / 2)),
       newWords: Array<any> = rootGetters['getNotLearnWords'](amount - reviewWords.length)
     // return state.todayWords = reviewWords.concat(newWords)
-    console.log(reviewWords, newWords)
+    console.log('reviewWords', reviewWords)
+    console.log('newWords', newWords)
     commit('setTodayWords', reviewWords.concat(newWords))
   },
-  async updateTodayData({ state, dispatch, commit }) {
+  async updateTodayData({ state, dispatch, commit, getters }) {
     if (!state.validDate || moment(state.validDate).isBefore(undefined, 'day')) {
       // 昨天没有背完，把有背的合并到总进度
       const today = moment().format('YYYY-MM-DD')
-      const finished = Object.entries(state.todayProgress).filter(item => item[1] === true).map(item => item[0])
+      // const finished = Object.entries(state.todayProgress).filter(item => item[1] === true).map(item => item[0])
+      const finished = getters.todayFinished
       commit('updateTotalProgress', {
         words: finished,
         date: today
@@ -93,9 +101,10 @@ const mutations = {
     return state.validDate = ''
   },
   updateTotalProgress(state: any, { words, date }: { words: Array<string>, date: string }) {
-    const learnedWords = state.totalProgress.map(item => item.word)
+    const learnedWords: Array<any> = state.totalProgress.filter(item => item.level !== 0 && item.level !== 4).map(item => item.word)
+    console.log('learnedWords', learnedWords)
     words.forEach(word => {
-      const index = learnedWords.findIndexOf(item => item.word === word)
+      const index = learnedWords.findIndex(item => item.word === word)
       if (index >= 0) {
         state.totalProgress[index].date = date
         state.totalProgress[index].level += 1
