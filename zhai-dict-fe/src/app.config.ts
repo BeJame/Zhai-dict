@@ -1,6 +1,7 @@
 export default {
   pages: [
     'pages/home/home',
+    'pages/settings/settings',
     'pages/me/me',
     'pages/spell/spell',
     'pages/about/about',

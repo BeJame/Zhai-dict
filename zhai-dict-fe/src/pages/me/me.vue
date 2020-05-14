@@ -9,21 +9,21 @@
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
     <view class="buttons-wrapper">
-      <navigator class="button" url="../collection/collection">
+      <navigator class="button" url="../collection/collection" hover-class="none">
         <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u305.png?token=24798333dc5a9f368c9723a3009bb97b65a1b03a9e6f6d61ec3b4dcdad01db63"></image>
         <text class="type">单词收藏</text>
       </navigator>
-      <navigator class="button" url="../history/history">
+      <navigator class="button" url="../history/history" hover-class="none">
         <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u304.png?token=5ea9874a553359506d600fe079a0b7e7f242d3669b445e3e484a9a54981493d3"></image>
         <text class="type">学习记录</text>
       </navigator>
-      <view class="button" @tap="handleTapDev">
+      <view class="button" @tap="handleTapDev" hover-class="none">
         <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u302.png?token=6380337594be6e9b5491815fcdcd6ca1e17167d25c1ce6103331f33059750f00"></image>
         <text class="type">笔记练习</text>
       </view>
     </view>
     <view class="columns-wrapper">
-      <navigator class="column">
+      <navigator class="column" url="../settings/settings">
         <text class="item">自定义设置</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>

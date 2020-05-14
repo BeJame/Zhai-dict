@@ -79,7 +79,6 @@ export default {
 
 <style lang="scss">
 @import "../../../styles/common";
-$mainBg: #87e2d0;
 $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
 
 #pHome {
@@ -98,7 +97,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
       width: 150px;
       margin-top: 30px;
       padding: 6px;
-      background: $mainBg;
+      background: $mainColor;
       color: #fff;
       border-radius: 50px;
       font-size: 24px;
@@ -169,7 +168,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
       top: 30px;
       right: 0;
       padding: 6px 25px 6px 20px;
-      background: $mainBg;
+      background: $mainColor;
       border-radius: 50px 0 0 50px;
       font-size: 28px;
     }
@@ -181,7 +180,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
     }
   }
   .btn-start {
-    @include commonButton($mainBg, #fff);
+    @include commonButton($mainColor, #fff);
     width: 550px;
     height: 90px;
     line-height: 90px;
