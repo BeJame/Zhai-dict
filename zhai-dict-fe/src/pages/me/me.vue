@@ -3,22 +3,22 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="user-info">
-        <image src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/打卡/u103.svg?token=e17aebcb7bd6cb9407001fcfc9402e9bc4a3ab1e39b2b79e3d3592008483b00e" id="avatar" mode="aspectFit" />
+        <image :src="image.testAvatar" id="avatar" mode="aspectFit" />
         <view id="name">Be、Jame</view>
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
     <view class="buttons-wrapper">
       <navigator class="button" url="../collection/collection" hover-class="none">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u305.png?token=24798333dc5a9f368c9723a3009bb97b65a1b03a9e6f6d61ec3b4dcdad01db63"></image>
+        <image class="icon" :src="image.book1"></image>
         <text class="type">单词收藏</text>
       </navigator>
       <navigator class="button" url="../history/history" hover-class="none">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u304.png?token=5ea9874a553359506d600fe079a0b7e7f242d3669b445e3e484a9a54981493d3"></image>
+        <image class="icon" :src="image.book2"></image>
         <text class="type">学习记录</text>
       </navigator>
       <view class="button" @tap="handleTapDev" hover-class="none">
-        <image class="icon" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/H8E5XP/36/28/f8/3628f8f814d64dcbb216a5d516c0675d/images/我的/u302.png?token=6380337594be6e9b5491815fcdcd6ca1e17167d25c1ce6103331f33059750f00"></image>
+        <image class="icon" :src="image.book4"></image>
         <text class="type">笔记练习</text>
       </view>
     </view>
@@ -48,6 +48,10 @@ import Taro from '@tarojs/taro'
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
 import iconRight from '../../../assets/images/icon_right.png'
+import book1 from '../../../assets/images/book1.png'
+import book2 from '../../../assets/images/book2.png'
+import book4 from '../../../assets/images/book4.png'
+import testAvatar from '../../../assets/images/test-avatar.svg'
 
 export default {
   name: 'pageMe',
@@ -59,7 +63,11 @@ export default {
       image: {
         dot,
         decorationCircle,
-        iconRight
+        iconRight,
+        book1,
+        book2,
+        book4,
+        testAvatar
       }
     }
   },

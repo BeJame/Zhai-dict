@@ -31,17 +31,14 @@ export default {
   name: 'Keyboard',
   data() {
     return {
-      keys,
-
+      keys
     }
   },
   methods: {
     handleTapLetter(ch) {
-      console.log('tap ' + ch)
       this.$emit(EVENT.tap, ch)
     },
     handleLongPressLetter(ch) {
-      console.log('longpress ' + ch)
       this.$emit(EVENT.longpress, ch)
     }
   },

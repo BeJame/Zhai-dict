@@ -154,7 +154,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
     padding: 30px;
     margin-bottom: 80px;
     background: #f5f5f5;
-    background-image: url('https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png');
+    background-image: url($tempCardBg);
     background-size: 100% 240px;
     background-repeat: no-repeat;
     border-radius: 26px;

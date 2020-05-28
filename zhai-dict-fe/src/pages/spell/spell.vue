@@ -1,6 +1,8 @@
 <template>
   <view id="pSpell" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
     <view class="bg" :style="{'background-image': `url(${bgImageUrl})`}"></view>
+    <!-- 预下载下一张图片 -->
+    <view class="bg" :style="{'background-image': `url(${bgImageUrl})`, 'display': 'none'}"></view>
     <view class="header">
       <!-- <text class="go-back" @tap="handleTapReturn">&lt;</text> -->
     </view>
@@ -34,6 +36,7 @@
 import Taro from '@tarojs/taro'
 import Keyboard from './components/Keyboard.vue'
 import SpellBox from './components/SpellBox.vue'
+import { mapState, mapGetter } from 'vuex'
 
 const STATE =  {
   'beforeSpell': 1,
@@ -59,14 +62,10 @@ export default {
       },
 
       bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
-      bgImageUrlList: [
-        'https://i.loli.net/2020/05/12/NaEQPBRiFdhGWIt.jpg',
-        'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
-        'https://i.loli.net/2020/05/12/3ImyvKR8CZQ47qd.jpg',
-        'https://i.loli.net/2020/05/12/jTyuo9n5cIePr2U.jpg',
-        'https://i.loli.net/2020/05/12/5rYHLB4ymo7ZX1j.png',
-
-      ],
+      bgImageUrlNext: '',
+      // bgImageUrlList: [],
+      bgCount: 0,
+      bgRatio: 0,
 
       waitingList: [],
       stat: {
@@ -75,11 +74,12 @@ export default {
       },
 
       userInput: '',
-      bgRatio: 0,
-      // bgCount: 0,
     }
   },
   computed: {
+    ...mapState('user', {
+      settings: state => state.settings
+    }),
     wordMasked() {
       const word = this.display.word
       const replaceLength = word.substring(1, word.length - 1).length
@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     handleTapKb(ch) {
+      // TODO:有时会报修改了vuex，需要检查在什么地方改的。
       if (ch === '←') {
         this.userInput = this.userInput.substring(0, this.userInput.length - 1)
       } else if (this.userInput.length < this.display.word.length) {
@@ -100,15 +101,22 @@ export default {
       }
       const input =  this.userInput
       if (this.display.word.startsWith(input)) {
+        console.log(10)
         this.bgRatio = input.length / this.display.word.length
-          // console.log(1)
+        // onFinishSpelling
         if (this.display.word.length === input.length) {
           this.display.mastered = true
           setTimeout(() => {
+            console.log(11)
             this.state = STATE.spelled
-            // console.log(3)
+            const time = this.settings.durationKeepAfterRecite
+            if (time > 0) {
+              setTimeout(() => {
+            console.log(12)
+                this.handleTapNext()
+              }, time);
+            }
           }, 400);
-            // console.log(2)
         }
       }
     },
@@ -131,9 +139,9 @@ export default {
       this.state = STATE.beforeSpell
       // 对前一个单词做处理
       const word = this.waitingList.shift()
-      // 更换图片 TODO:temp
+      // 更换图片
       setTimeout(() => {
-        this.bgImageUrl = this.bgImageUrlList[this.stat.learned % this.bgImageUrlList.length]
+        this.changeBgImage()
       }, 500);
       if (!this.display.mastered) {
         this.waitingList.push(word)
@@ -165,18 +173,26 @@ export default {
       const word = this.waitingList.splice(0, 1)[0]
       this.waitingList.push(word)
       this.display = this.waitingList[0]
-      // TODO:
-      this.bgImageUrl = this.bgImageUrlList[Math.floor(Math.random * this.bgImageUrlList.length)]
+      this.changeBgImage()
     },
     handleTapTips() {
       Taro.showToast({
         title: this.display.word,
-        duration: 1000,
+        duration: this.settings.tipsDuration,
         icon: 'none'
       })
     },
     handleTapCollect(isCollected) {
       this.$store.commit(isCollected ? 'user/cancelCollection' : 'user/addCollection', this.display.word)
+    },
+
+    changeBgImage() {
+      this.bgCount++
+      if (this.bgCount >= this.settings.timesToChangeBackground) {
+        this.bgImageUrl = this.bgImageUrlNext || this.$store.getters['resource/getImages'](1)[0]
+        this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
+        this.bgCount = 0
+      }
     },
 
 
@@ -186,6 +202,7 @@ export default {
   created() {
     // TODO:尚未检查、处理跨日期
     console.log('state', this.$store.state)
+    this.changeBgImage()
     const target = this.$store.state.progress.todayWords,
       progress = this.$store.state.progress.todayProgress,
       learned = Object.entries(progress).filter(item => item[1] === true).map(item => item[0])

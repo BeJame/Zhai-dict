@@ -40,7 +40,7 @@ const getters = {
     let result: Array<any> = []
     if (start === undefined || start === null) {
       // 未给定start，获取每日新单词使用
-      const randArr = getRandomInt(0, notLearn.length - 1, count) as number[]
+      const randArr = getRandomInt(0, notLearn.length - 1, count)
       console.log('notLearnInner', randArr,count)
       for(const idx of randArr) {
         result.push(notLearn[idx])
@@ -67,7 +67,7 @@ const getters = {
     let result: Array<any> = []
     if (start === undefined || start === null) {
       // 未给定start，获取每日复习的单词使用
-      const randArr = getRandomInt(0, learning.length - 1, count) as number[]
+      const randArr = getRandomInt(0, learning.length - 1, count)
       for(const idx of randArr) {
         result.push(learning[idx])
       }
