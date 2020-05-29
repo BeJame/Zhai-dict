@@ -40,6 +40,10 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
+    },
+    webpackChain (chain, webpack) {
+      // chain.plugin('analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+      chain.plugin('momentLocales').use(require('moment-locales-webpack-plugin'), [{ localesToKeep: ['zh-cn'] }])
     }
   },
   h5: {

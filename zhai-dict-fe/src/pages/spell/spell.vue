@@ -37,7 +37,7 @@ import Taro from '@tarojs/taro'
 import Keyboard from './components/Keyboard.vue'
 import SpellBox from './components/SpellBox.vue'
 import { mapState, mapGetter } from 'vuex'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 const STATE =  {
   'beforeSpell': 1,
@@ -144,7 +144,7 @@ export default {
         this.changeBgImage()
       }, 500);
       // 保存到vuex
-      this.$store.commit('progress/setTodayProgress', {
+      this.$store.commit('progress/assignTodayProgress', {
         [this.display.word]: this.display.mastered
       })
       // 对前一个单词做处理
@@ -205,7 +205,8 @@ export default {
   created() {
     // TODO:尚未检查、处理跨日期
     console.log('state', this.$store.state)
-    this.changeBgImage()
+    this.bgImageUrl = this.$store.getters['resource/getImages'](1)[0]
+    this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
     const target = this.$store.state.progress.todayWords,
       progress = this.$store.state.progress.todayProgress,
       learned = Object.entries(progress).filter(item => item[1] === true).map(item => item[0])

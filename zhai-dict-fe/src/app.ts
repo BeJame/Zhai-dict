@@ -8,8 +8,6 @@ Vue.config.productionTip = false
 
 const App = new Vue({
   store,
-  onShow (options: any) {
-  },
   onLaunch() {
     if (this.$store.state.progress.totalProgress.length === 0) {
       this.$store.dispatch('progress/initTotalProgress')

@@ -26,7 +26,6 @@
         <text class="title">普通单词</text>
         <view class="history" @tap="handleTapHistory">记录</view>
         <view class="progress-area">
-          <!-- TODO:搞个compute -->
           <view class="progress-text">
             <text>已完成{{ (finishedAmount / totalAmount * 100).toFixed(2) }}%</text>
             <text>{{ finishedAmount }}/{{ totalAmount }}</text>

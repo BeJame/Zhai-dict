@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import moment from 'moment'
 
 const state = () => ({
@@ -18,11 +17,10 @@ const state = () => ({
     //   translation: '',
     //   pronounce: ''
     // },
-
   ],
   todayProgress: {
-    // 'abandon': false, // 拼写正确，计算熟练度
-    // 'aa': false, // 拼写不正确或跳过，不计算熟练度
+    // 'abandon': false, // 拼写正确
+    // 'aa': false, // 拼写不正确或跳过
     // 其他未出现的还没有拼写
   }
 })
@@ -67,17 +65,17 @@ const actions = {
       // state.todayProgress = {}
       // state.validDate = today
       commit('setValidDate', today)
-      commit('setTotalProgress', {})
+      commit('assignTodayProgress', [])
     }
   },
   async initTotalProgress({ rootState, commit }) {
-    // commit('setTotalProgress',{
+    // commit('assignTodayProgress',{
     //   word: 'abandon',
     //   date: '2020-02-02',
     //   level: 1 //熟练度
     // })
     // TODO:sync from cloud
-    const initTotal = rootState.resource.vocabulary.map((item: any) => ({
+    const initTotal: Array<any> = rootState.resource.vocabulary.map((item: any) => ({
       word: item.content,
       level: 0,
     }))
@@ -86,13 +84,14 @@ const actions = {
 }
 
 const mutations = {
-  setTodayProgress(state: any, progress: object) {
+  assignTodayProgress(state: any, progress: any) {
     // 需遵循vue的响应规则，或使用Vue.set
     // return Object.assign(state.todayProgress, progress)
     return state.todayProgress = {...state.todayProgress, ...progress}
   },
-  setTotalProgress(state: any, progress: object) {
-    return state.todayProgress = {...state.totalProgress, ...progress}
+  setTotalProgress(state: any, progress: Array<any>) {
+    // return state.totalProgress = [...state.totalProgress, ...progress]
+    return state.totalProgress = progress
   },
   setTodayWords(state: any, words: Array<any>) {
     return state.todayWords = words
