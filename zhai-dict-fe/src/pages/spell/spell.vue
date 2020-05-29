@@ -37,6 +37,7 @@ import Taro from '@tarojs/taro'
 import Keyboard from './components/Keyboard.vue'
 import SpellBox from './components/SpellBox.vue'
 import { mapState, mapGetter } from 'vuex'
+import { cloneDeep } from 'lodash'
 
 const STATE =  {
   'beforeSpell': 1,
@@ -54,26 +55,27 @@ export default {
     return {
       state: STATE.beforeSpell,
 
+      // display是waitingList[0]的拷贝
       display: {
         word: 'aa',
         translation: ' n. 放纵\nvt. 放弃,遗弃,沉溺',
         announce: '',
         mastered: false
       },
-
-      bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
-      bgImageUrlNext: '',
-      // bgImageUrlList: [],
-      bgCount: 0,
-      bgRatio: 0,
-
       waitingList: [],
       stat: {
         learned: 0,
         total: 0
       },
 
+      bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
+      bgImageUrlNext: '',
+      bgCount: 0,
+      bgRatio: 0,
+
       userInput: '',
+
+      timer: 0,
     }
   },
   computed: {
@@ -93,7 +95,6 @@ export default {
   },
   methods: {
     handleTapKb(ch) {
-      // TODO:有时会报修改了vuex，需要检查在什么地方改的。
       if (ch === '←') {
         this.userInput = this.userInput.substring(0, this.userInput.length - 1)
       } else if (this.userInput.length < this.display.word.length) {
@@ -101,18 +102,15 @@ export default {
       }
       const input =  this.userInput
       if (this.display.word.startsWith(input)) {
-        console.log(10)
         this.bgRatio = input.length / this.display.word.length
         // onFinishSpelling
         if (this.display.word.length === input.length) {
           this.display.mastered = true
           setTimeout(() => {
-            console.log(11)
             this.state = STATE.spelled
             const time = this.settings.durationKeepAfterRecite
             if (time > 0) {
-              setTimeout(() => {
-            console.log(12)
+              this.timer = setTimeout(() => {
                 this.handleTapNext()
               }, time);
             }
@@ -133,27 +131,32 @@ export default {
       this.state = STATE.spelling
     },
     handleTapNext() {
-      // 初始化
+      // 重置页面和计时器
       this.userInput = '',
       this.bgRatio = 0,
       this.state = STATE.beforeSpell
-      // 对前一个单词做处理
-      const word = this.waitingList.shift()
-      // 更换图片
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = 0
+      }
+      // 更换图片（注意渐变）
       setTimeout(() => {
         this.changeBgImage()
       }, 500);
+      // 保存到vuex
+      this.$store.commit('progress/setTodayProgress', {
+        [this.display.word]: this.display.mastered
+      })
+      // 对前一个单词做处理
+      const word = this.waitingList.shift()
       if (!this.display.mastered) {
         this.waitingList.push(word)
       } else {
         this.stat.learned += 1
       }
-      this.$store.commit('progress/setTodayProgress', {
-        [this.display.word]: this.display.mastered
-      })
       if (this.waitingList.length) {
         // 显示下一个单词
-        this.display = this.waitingList[0]
+        this.display = {...this.waitingList[0]}
         this.display.mastered = false
       } else {
         Taro.showModal({
@@ -172,7 +175,7 @@ export default {
     handleTapJump() {
       const word = this.waitingList.splice(0, 1)[0]
       this.waitingList.push(word)
-      this.display = this.waitingList[0]
+      this.display = {...this.waitingList[0]}
       this.changeBgImage()
     },
     handleTapTips() {
@@ -210,8 +213,8 @@ export default {
       total: target.length,
       learned: learned.length
     }
-    this.waitingList = target.filter(item => !learned.includes(item.word)) // FIXME: 使用深拷贝！
-    console.log(this.$data)
+    this.waitingList = cloneDeep(target.filter(item => !learned.includes(item.word)))
+    console.log('data', this.$data)
     if (this.waitingList.length === 0) {
       Taro.showModal({
         title: '提示',
@@ -222,7 +225,7 @@ export default {
         }
       })
     } else {
-      this.display = this.waitingList[0]
+      this.display = {...this.waitingList[0]}
       this.display.mastered = false
     }
   },
