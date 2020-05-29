@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import moment from 'moment'
 
 const state = () => ({
@@ -86,10 +87,12 @@ const actions = {
 
 const mutations = {
   setTodayProgress(state: any, progress: object) {
-    return Object.assign(state.todayProgress, progress)
+    // 需遵循vue的响应规则，或使用Vue.set
+    // return Object.assign(state.todayProgress, progress)
+    return state.todayProgress = {...state.todayProgress, ...progress}
   },
   setTotalProgress(state: any, progress: object) {
-    return Object.assign(state.totalProgress, progress)
+    return state.todayProgress = {...state.totalProgress, ...progress}
   },
   setTodayWords(state: any, words: Array<any>) {
     return state.todayWords = words

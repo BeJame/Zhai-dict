@@ -2,7 +2,7 @@
   <view id="pHome">
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
-      <view class="welcome-text">5月12日 晴 宜赶工期/忌摸鱼</view>
+      <view class="welcome-text">{{ welcomeText }}</view>
       <view class="check-in-record">
         打卡日历
       </view>
@@ -28,10 +28,10 @@
         <view class="progress-area">
           <!-- TODO:搞个compute -->
           <view class="progress-text">
-            <text>已完成{{ ($store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length / $store.state.progress.totalProgress.length * 100).toFixed(2) }}%</text>
-            <text>{{ $store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length }}/{{ $store.state.progress.totalProgress.length }}</text>
+            <text>已完成{{ (finishedAmount / totalAmount * 100).toFixed(2) }}%</text>
+            <text>{{ finishedAmount }}/{{ totalAmount }}</text>
           </view>
-          <cardProgress :progress="$store.getters['progress/totalFinished'].length + $store.getters['progress/todayFinished'].length / $store.state.progress.totalProgress.length * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
+          <cardProgress :progress="finishedAmount / totalAmount * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
         </view>
       </view>
     </view>
@@ -45,7 +45,9 @@ import cardProgress from "./components/cardProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
-// import cardBg from '../../../assets/images/test-cardBg.png'
+
+const doit = ['外出', '看书', '运动', '赶工期']
+const dont = ['摸鱼', '划水', '睡懒觉']
 
 export default {
   name: 'pHome',
@@ -57,8 +59,21 @@ export default {
       image: {
         dot,
         decorationCircle,
-        // cardBg
       }
+    }
+  },
+  computed: {
+    welcomeText() {
+      const d = new Date()
+      let str = `${d.getMonth() + 1}月${d.getDate()}日 `
+      str += `宜${doit[(d.getDate() * 66 + 6) % doit.length]}/忌${dont[d.getDate() * 44 % dont.length]}`
+      return str
+    },
+    finishedAmount() {
+      return this.$store.getters['progress/totalFinished'].length + this.$store.getters['progress/todayFinished'].length
+    },
+    totalAmount() {
+      return this.$store.state.progress.totalProgress.length
     }
   },
   methods: {
@@ -73,7 +88,7 @@ export default {
         url: '../history/history'
       })
     }
-  },
+  }
 }
 </script>
 
