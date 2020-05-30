@@ -9,7 +9,7 @@ const state = () => ({
     //   level: 1 //熟练度
     // },
   ],
-  validDate: '2020-05-06',
+  validDate: '',
   todayWords: [
     // {
     //   word: 'abandon',
@@ -33,16 +33,24 @@ const getters = {
   learnedAmount(state: any) {
     return state.totalProgress.filter((item: any) => item.level === 4).length
   },
+  learningAmount(state: any) {
+    return state.totalProgress.filter((item: any) => item.level !== 4 && item.level !== 0).length
+  },
   todayFinished(state: any) {
     return Object.entries(state.todayProgress).filter(item => item[1] === true).map(item => item[0])
   },
-  totalFinished(state: any) {
-    return Object.entries(state.totalProgress).filter(item => item[1] === true).map(item => item[0])
+  todayNewLearnedAmount(state: any, getters) {
+    // TODO:僵硬。看看能不能改。
+    return getters.todayFinished.filter(item => (state.todayWords.find(item2 => item2.word === item)?.level === 0)).length
   },
+  // totalFinished(state: any) {
+  //   // 有误
+  //   return Object.entries(state.totalProgress).filter(item => item[1] === true).map(item => item[0])
+  // },
 }
 
 const actions = {
-  readTodayWords({ rootState, rootGetters, commit }) {
+  _updateTodayWords({ rootState, rootGetters, commit }) {
     const amount = rootState.user.config.amountPerDay,
       reviewWords: Array<any> = rootGetters['getLearningWords'](Math.floor(amount / 2)),
       newWords: Array<any> = rootGetters['getNotLearnWords'](amount - reviewWords.length)
@@ -50,23 +58,27 @@ const actions = {
     console.log('reviewWords', reviewWords)
     console.log('newWords', newWords)
     commit('setTodayWords', reviewWords.concat(newWords))
+    console.log('>>>今日单词更新完成')
   },
   async updateTodayData({ state, dispatch, commit, getters }) {
-    if (!state.validDate || moment(state.validDate).isBefore(undefined, 'day')) {
+    // if (!state.validDate || moment(state.validDate).isBefore(undefined, 'day')) {
+    // 考虑到用户可能把系统时间往前改，为避免永远不更新每日单词导致无法使用，改成判断日期是否一致
+    if (!state.validDate || !moment(state.validDate).isSame(undefined, 'day')) {
       // 昨天没有背完，把有背的合并到总进度
-      const today = moment().format('YYYY-MM-DD')
-      // const finished = Object.entries(state.todayProgress).filter(item => item[1] === true).map(item => item[0])
+      console.log('>>>这是新用户/昨天没有完成，正在合并到总进度')
       const finished = getters.todayFinished
-      commit('updateTotalProgress', {
+      commit('_updateTotalProgress', {
         words: finished,
-        date: today
+        date: state.validDate
       })
-      await dispatch('readTodayWords')
-      // state.todayProgress = {}
-      // state.validDate = today
+      await dispatch('_updateTodayWords')
+      // 更新日期、清除昨日剩余进度
+      const today = moment().format('YYYY-MM-DD')
       commit('setValidDate', today)
-      commit('assignTodayProgress', [])
+      commit('clearTodayProgress')
     }
+    console.log('>>>昨天已经背完单词或还没有跨天')
+    console.log(moment().toString())
   },
   async initTotalProgress({ rootState, commit }) {
     // commit('assignTodayProgress',{
@@ -89,6 +101,9 @@ const mutations = {
     // return Object.assign(state.todayProgress, progress)
     return state.todayProgress = {...state.todayProgress, ...progress}
   },
+  clearTodayProgress(state: any) {
+    state.todayProgress = {}
+  },
   setTotalProgress(state: any, progress: Array<any>) {
     // return state.totalProgress = [...state.totalProgress, ...progress]
     return state.totalProgress = progress
@@ -102,20 +117,17 @@ const mutations = {
   clearValidDate(state: any) {
     return state.validDate = ''
   },
-  updateTotalProgress(state: any, { words, date }: { words: Array<string>, date: string }) {
-    const learnedWords: Array<any> = state.totalProgress.filter(item => item.level !== 0 && item.level !== 4).map(item => item.word)
-    console.log('learnedWords', learnedWords)
+  _updateTotalProgress(state: any, { words, date }: { words: Array<string>, date: string }) {
+    // const learnedWords: Array<any> = state.totalProgress.filter(item => item.level !== 0 && item.level !== 4)
+    // console.log('learnedWords', learnedWords)
+    // console.log('words', words)
     words.forEach(word => {
-      const index = learnedWords.findIndex(item => item.word === word)
+      const index = state.totalProgress.findIndex(item => item.word === word)
       if (index >= 0) {
         state.totalProgress[index].date = date
         state.totalProgress[index].level += 1
       } else {
-        state.totalProgress.push({
-          word,
-          date,
-          level: 1
-        })
+        throw new Error('cannot find word in history!!')
       }
     })
   }

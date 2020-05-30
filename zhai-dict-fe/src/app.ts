@@ -8,10 +8,13 @@ Vue.config.productionTip = false
 
 const App = new Vue({
   store,
-  onLaunch() {
+  async onLaunch() {
+    // 从单词库初始化总进度，首次打开时使用
     if (this.$store.state.progress.totalProgress.length === 0) {
-      this.$store.dispatch('progress/initTotalProgress')
+      await this.$store.dispatch('progress/initTotalProgress')
     }
+    // 更新每日单词
+    await this.$store.dispatch('progress/updateTodayData')
   },
   render(h) {
     // this.$slots.default 是将要会渲染的页面

@@ -27,10 +27,11 @@
         <view class="history" @tap="handleTapHistory">记录</view>
         <view class="progress-area">
           <view class="progress-text">
-            <text>已完成{{ (finishedAmount / totalAmount * 100).toFixed(2) }}%</text>
-            <text>{{ finishedAmount }}/{{ totalAmount }}</text>
+            <!-- 进度 包括learned + learning -->
+            <text>进度 {{ ((finishedAmount + learningAmount) / totalAmount * 100).toFixed(2) }}%</text>
+            <text>{{ finishedAmount + learningAmount }}/{{ totalAmount }}</text>
           </view>
-          <cardProgress :progress="finishedAmount / totalAmount * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
+          <cardProgress :progress="(finishedAmount + learningAmount) / totalAmount * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
         </view>
       </view>
     </view>
@@ -69,10 +70,13 @@ export default {
       return str
     },
     finishedAmount() {
-      return this.$store.getters['progress/totalFinished'].length + this.$store.getters['progress/todayFinished'].length
+      return this.$store.getters['progress/learnedAmount'] + this.$store.getters['progress/todayNewLearnedAmount']
+    },
+    learningAmount() {
+      return this.$store.getters['progress/learningAmount']
     },
     totalAmount() {
-      return this.$store.state.progress.totalProgress.length
+      return this.$store.getters['progress/totalAmount']
     }
   },
   methods: {
