@@ -1,12 +1,13 @@
 export default {
   pages: [
     'pages/home/home',
+    'pages/books/books',
     'pages/settings/settings',
     'pages/me/me',
     'pages/spell/spell',
     'pages/about/about',
     'pages/history/history',
-    'pages/collection/collection'
+    'pages/collection/collection',
   ],
   window: {
     backgroundTextStyle: 'light',

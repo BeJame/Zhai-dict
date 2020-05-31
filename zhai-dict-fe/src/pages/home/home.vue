@@ -24,7 +24,7 @@
       </view>
       <view class="book-card">
         <text class="title">普通单词</text>
-        <view class="history" @tap="handleTapHistory">记录</view>
+        <view class="btn-change" @tap="handleTapChangePlan">更改</view>
         <view class="progress-area">
           <view class="progress-text">
             <!-- 进度 包括learned + learning -->
@@ -86,9 +86,9 @@ export default {
         url: '../spell/spell'
       })
     },
-    handleTapHistory() {
+    handleTapChangePlan() {
       Taro.navigateTo({
-        url: '../history/history'
+        url: '../books/books'
       })
     }
   }
@@ -181,7 +181,7 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
       margin-top: 10px;
       font-size: 30px;
     }
-    .history {
+    .btn-change {
       position: absolute;
       top: 30px;
       right: 0;

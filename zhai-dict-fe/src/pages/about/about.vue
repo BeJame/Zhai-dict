@@ -1,7 +1,7 @@
 <template>
   <view id="pAbout">
-    软件工程实践11组（云玩家）
-    All rights reserved.
+    <view style="text-align: center; margin-top: 20px;">copyright&copy;软件工程实践11组（云玩家）</view>
+    <view style="text-align: center;">All rights reserved.</view>
   </view>
 </template>
 

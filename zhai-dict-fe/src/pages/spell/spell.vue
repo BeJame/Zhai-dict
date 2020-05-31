@@ -46,7 +46,7 @@ const STATE =  {
 }
 
 export default {
-  name: 'pSpell',
+  name: 'pageSpell',
   components: {
     Keyboard,
     SpellBox
