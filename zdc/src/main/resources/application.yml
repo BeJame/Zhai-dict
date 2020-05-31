@@ -1,0 +1,12 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/
+      #prefix: classpath:/templates/
+      suffix: .jsp
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/neet_word?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
