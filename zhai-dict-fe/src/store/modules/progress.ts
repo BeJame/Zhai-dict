@@ -60,12 +60,12 @@ const actions = {
     commit('setTodayWords', reviewWords.concat(newWords))
     console.log('>>>今日单词更新完成')
   },
-  async updateTodayData({ state, dispatch, commit, getters }) {
+  async updateTodayData({ state, dispatch, commit, getters }, force: boolean) {
     // if (!state.validDate || moment(state.validDate).isBefore(undefined, 'day')) {
     // 考虑到用户可能把系统时间往前改，为避免永远不更新每日单词导致无法使用，改成判断日期是否一致
-    if (!state.validDate || !moment(state.validDate).isSame(undefined, 'day')) {
+    if (force || !state.validDate || !moment(state.validDate).isSame(undefined, 'day')) {
       // 昨天没有背完，把有背的合并到总进度
-      console.log('>>>这是新用户/昨天没有完成，正在合并到总进度')
+      console.log('>>>正在合并单词到总进度')
       const finished = getters.todayFinished
       commit('_updateTotalProgress', {
         words: finished,
@@ -105,7 +105,6 @@ const mutations = {
     state.todayProgress = {}
   },
   setTotalProgress(state: any, progress: Array<any>) {
-    // return state.totalProgress = [...state.totalProgress, ...progress]
     return state.totalProgress = progress
   },
   setTodayWords(state: any, words: Array<any>) {

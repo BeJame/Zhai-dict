@@ -1,64 +1,64 @@
 {
-  "name": "zhai-dict-fe",
-  "version": "1.0.0",
-  "private": true,
-  "description": "a special words reciting mp",
-  "templateInfo": {
-    "name": "vuex",
-    "typescript": true,
-    "css": "sass"
-  },
-  "scripts": {
-    "build:weapp": "taro build --type weapp",
-    "build:swan": "taro build --type swan",
-    "build:alipay": "taro build --type alipay",
-    "build:tt": "taro build --type tt",
-    "build:h5": "taro build --type h5",
-    "build:rn": "taro build --type rn",
-    "build:qq": "taro build --type qq",
-    "build:quickapp": "taro build --type quickapp",
-    "dev:weapp": "npm run build:weapp -- --watch",
-    "dev:swan": "npm run build:swan -- --watch",
-    "dev:alipay": "npm run build:alipay -- --watch",
-    "dev:tt": "npm run build:tt -- --watch",
-    "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch",
-    "dev:qq": "npm run build:qq -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
-  },
-  "browserslist": [
-    "last 3 versions",
-    "Android >= 4.1",
-    "ios >= 8"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@babel/runtime": "^7.7.7",
-    "@tarojs/components": "3.0.0-rc.2",
-    "@tarojs/runtime": "3.0.0-rc.2",
-    "@tarojs/taro": "3.0.0-rc.2",
-    "lodash": "^4.17.15",
-    "moment": "^2.26.0",
-    "vue": "^2.5.0",
-    "vue-template-compiler": "^2.5.0",
-    "vuex": "^3.0.0",
-    "vuex-persistedstate": "^3.0.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@tarojs/mini-runner": "3.0.0-rc.2",
-    "@tarojs/webpack-runner": "3.0.0-rc.2",
-    "@types/webpack-env": "^1.13.6",
-    "@typescript-eslint/eslint-plugin": "^2.x",
-    "@typescript-eslint/parser": "^2.x",
-    "babel-preset-taro": "3.0.0-rc.2",
-    "eslint": "^6.8.0",
-    "eslint-config-taro": "3.0.0-rc.2",
-    "eslint-plugin-vue": "^6.x",
-    "moment-locales-webpack-plugin": "^1.2.0",
-    "stylelint": "9.3.0",
-    "typescript": "^3.7.0",
-    "webpack-bundle-analyzer": "^3.8.0"
-  }
+	"name": "zhai-dict-fe",
+	"version": "1.0.0",
+	"private": true,
+	"description": "a special words reciting mp",
+	"templateInfo": {
+		"name": "vuex",
+		"typescript": true,
+		"css": "sass"
+	},
+	"scripts": {
+		"build:weapp": "taro build --type weapp",
+		"build:swan": "taro build --type swan",
+		"build:alipay": "taro build --type alipay",
+		"build:tt": "taro build --type tt",
+		"build:h5": "taro build --type h5",
+		"build:rn": "taro build --type rn",
+		"build:qq": "taro build --type qq",
+		"build:quickapp": "taro build --type quickapp",
+		"dev:weapp": "npm run build:weapp -- --watch",
+		"dev:swan": "npm run build:swan -- --watch",
+		"dev:alipay": "npm run build:alipay -- --watch",
+		"dev:tt": "npm run build:tt -- --watch",
+		"dev:h5": "npm run build:h5 -- --watch",
+		"dev:rn": "npm run build:rn -- --watch",
+		"dev:qq": "npm run build:qq -- --watch",
+		"dev:quickapp": "npm run build:quickapp -- --watch"
+	},
+	"browserslist": [
+		"last 3 versions",
+		"Android >= 4.1",
+		"ios >= 8"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@babel/runtime": "^7.7.7",
+		"@tarojs/components": "3.0.0-rc.3",
+		"@tarojs/runtime": "3.0.0-rc.3",
+		"@tarojs/taro": "3.0.0-rc.3",
+		"lodash": "^4.17.15",
+		"moment": "^2.26.0",
+		"vue": "^2.5.0",
+		"vue-template-compiler": "^2.5.0",
+		"vuex": "^3.0.0",
+		"vuex-persistedstate": "^3.0.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.8.0",
+		"@tarojs/mini-runner": "3.0.0-rc.3",
+		"@tarojs/webpack-runner": "3.0.0-rc.3",
+		"@types/webpack-env": "^1.13.6",
+		"@typescript-eslint/eslint-plugin": "^2.x",
+		"@typescript-eslint/parser": "^2.x",
+		"babel-preset-taro": "3.0.0-rc.3",
+		"eslint": "^6.8.0",
+		"eslint-config-taro": "3.0.0-rc.3",
+		"eslint-plugin-vue": "^6.x",
+		"moment-locales-webpack-plugin": "^1.2.0",
+		"stylelint": "9.3.0",
+		"typescript": "^3.7.0",
+		"webpack-bundle-analyzer": "^3.8.0"
+	}
 }

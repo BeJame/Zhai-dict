@@ -1,4 +1,3 @@
-// initial state
 const state = () => ({
   sessionId: '',
   info: {
@@ -19,7 +18,6 @@ const state = () => ({
   collection: [] // 单词收藏
 })
 
-// getters
 const getters = {
   // 获取指定数量收藏单词
   getCollectionWords: (state: any) => (start: number, count: number) => {
@@ -27,12 +25,10 @@ const getters = {
   }
 }
 
-// actions
 const actions = {
 
 }
 
-// mutations
 const mutations = {
   addCollection(state: any, word: string) {
     state.collection.push(word)
@@ -46,7 +42,10 @@ const mutations = {
   },
   setSettings(state: any, settings: any) {
     state.settings = settings
-  }
+  },
+  assignConfig(state: any, config: any) {
+    state.config = {...state.config, ...config}
+  },
 }
 
 export default {

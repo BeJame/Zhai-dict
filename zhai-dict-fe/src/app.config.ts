@@ -1,8 +1,8 @@
 export default {
   pages: [
     'pages/home/home',
-    'pages/books/books',
     'pages/settings/settings',
+    'pages/books/books',
     'pages/me/me',
     'pages/spell/spell',
     'pages/about/about',

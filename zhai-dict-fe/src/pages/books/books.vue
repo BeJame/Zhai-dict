@@ -5,29 +5,35 @@
       <view class="welcome-text">我的学习任务</view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
-    <view class="learning-wrapper">
+    <view class="learning-wrapper" v-if="bookList.length">
       <image :src="learningBook.image" class="book-img" />
       <view class="learning-body">
         <view class="title">{{ learningBook.title }}</view>
         <view class="plan">
           每日新学<text id="number"> {{ userConfig.amountPerDay }} </text>词
-          <image class="icon" :src="image.edit" />
+          <picker mode="multiSelector" @ :value="userConfig.amountPerDay"
+            :range="[amountList, amountList]" header-text="修改后今日进度将会清零"
+            @change="onNowPickerChange"
+          >
+            <image class="icon" :src="image.edit" />
+          </picker>
         </view>
         <view class="progress">
           <view class="progress-text">已完成：{{ finishedAmount + learningAmount }} / {{ totalAmount }} 词</view>
-          <cardProgress :progress="(finishedAmount + learningAmount) / totalAmount * 100" color="#87e2d0" blankColor="#aaa"></cardProgress>
+          <smallProgress :progress="(finishedAmount + learningAmount) / totalAmount * 100" color="#87e2d0" blankColor="#aaa"></smallProgress>
         </view>
       </view>
     </view>
-    <view class="book-list-wrapper">
+    <view class="book-list-wrapper" v-if="bookList.length">
       <view id="titleText">所有单词书</view>
-      <view class="book-list" v-for="book in bookList" :key="book.bookId">
+      <view class="book-list" v-for="(book, index) in bookList" :key="book.bookId">
         <view class="book-card">
           <image :src="book.image" class="book-img" />
           <view class="card-body">
-            <view class="title">{{ book.title }}</view>
+            <view class="title">{{ book.title }}<text v-show="book.bookId === learningBook.bookId">（学习中）</text></view>
             <view class="desc">共{{ book.totalWords }}词 | {{ book.description }}</view>
-            <view class="btn-book">学习此书</view>
+            <view class="btn-book" @tap="handleTapBook($event, index)" v-if="book.bookId !== learningBook.bookId">学习此书</view>
+            <view class="btn-book btn-book-locked" v-else>正在学习</view>
           </view>
         </view>
       </view>
@@ -39,7 +45,7 @@
 <script>
 import Taro from '@tarojs/taro'
 import { mapState } from 'vuex'
-import cardProgress from "../home/components/cardProgress.vue"
+import smallProgress from "../../components/smallProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
@@ -48,7 +54,7 @@ import edit from '../../../assets/icon/edit.png'
 export default {
   name: 'pageBooks',
   components: {
-    cardProgress
+    smallProgress
   },
   data() {
     return {
@@ -57,20 +63,19 @@ export default {
         decorationCircle,
         edit
       },
-      learningBook: {
-        title: '四级词汇',
-        image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
-      },
       bookList: [
-        {
-          bookId: 123,
-          title: '四级词汇',
-          description: '普通的四级词汇',
-          image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
-          totalWords: 1000, // 单词书总数
-          learnedWords: 1 //手动统计,服务端更新【这玩意应该后期再搞】
-        },
-      ]
+        // {
+        //   bookId: 123,
+        //   title: '四级词汇',
+        //   description: '普通的四级词汇',
+        //   image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
+        //   totalWords: 1000,
+        //   learnedWords: 1
+        // },
+      ],
+
+      amountList: [5, 10, 15, 20, 25, 30],
+      amountIndex: 0,
     }
   },
   computed: {
@@ -85,11 +90,66 @@ export default {
     },
     totalAmount() {
       return this.$store.getters['progress/totalAmount']
+    },
+    learningBook() {
+      return this.bookList.find(item => item.bookId === this.userConfig.bookId)
     }
   },
   methods: {
-
+    handleTapBook(e, index) {
+      Taro.showModal({
+        title: '提示',
+        content: '即将更换单词书为《' + this.bookList[index].title + '》，是否确认？',
+        success: ({ confirm }) => {
+          if (confirm) {
+            Taro.showLoading({
+              title: '下载中'
+            })
+            this.$store.commit('user/assignConfig', {
+              bookId: this.bookList[index].bookId
+            })
+            setTimeout(() => {
+              Taro.hideLoading()
+            }, 1000)
+          }
+        }
+      })
+    },
+    onNowPickerChange(e) {
+      // TODO: 临时用两数之和
+      this.$store.commit('user/assignConfig', {
+        amountPerDay: this.amountList[e.detail.value[0]] + this.amountList[e.detail.value[1]]
+      })
+      this.$store.dispatch('progress/updateTodayData', true)
+    }
   },
+  created() {
+    this.amountIndex = this.amountList.indexOf(this.userConfig.amountPerDay)
+    Taro.showLoading({
+      title: '加载列表'
+    })
+    setTimeout(() => {
+      this.bookList = [
+        {
+          bookId: 123,
+          title: '四级词汇',
+          description: '普通的四级词汇',
+          image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
+          totalWords: 1000,
+          learnedWords: 1
+        },
+        {
+          bookId: 124,
+          title: '六级词汇',
+          description: '高端的六级词汇',
+          image: 'https://s.cn.bing.net/th?id=ODL.0bd0bed02eca60b4cab9d0ac6206406e&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
+          totalWords: 2000,
+          learnedWords: 1
+        },
+      ]
+      Taro.hideLoading()
+    }, 1000);
+  }
 }
 </script>
 
@@ -163,12 +223,6 @@ export default {
       margin-bottom: 8px;
       font-size: 20px;
     }
-    // 不知道为什么组件样式未生效
-    #cCardProgress {
-      height: 10px;
-      border-radius: 10px;
-      overflow: hidden;
-    }
   }
   .book-list-wrapper {
     margin-top: 100px;
@@ -191,6 +245,7 @@ export default {
       padding: 25px;
       box-shadow: 0 0 4px 0 #bbb;
       border-radius: 10px;
+      margin-bottom: 30px;
     }
     .book-img {
       zoom: .5;
@@ -219,6 +274,10 @@ export default {
       border-radius: 50px;
       font-size: 24px;
       text-align: center;
+    }
+    .btn-book-locked {
+      background: #b2b2b2;
+      color: #fff;
     }
   }
 

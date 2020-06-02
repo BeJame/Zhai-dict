@@ -1,7 +1,7 @@
 <template>
   <view id="pSettings">
     <view class="type">习惯</view>
-    <view class="column">
+    <view class="column-picker">
       <picker mode='selector' :value="selectedIndexes[0]" :range="options[0]" @change="onPickerChange($event, 0)">
         <view class="picker-wrapper">
           <view class="item">
@@ -12,7 +12,7 @@
         </view>
       </picker>
     </view>
-    <view class="column">
+    <view class="column-picker">
       <picker mode='selector' :value="selectedIndexes[1]" :range="options[1]" @change="onPickerChange($event, 1)">
         <view class="picker-wrapper">
           <text class="item">单词提示浮窗出现时长</text>
@@ -21,7 +21,7 @@
       </picker>
     </view>
     <view class="type">外观</view>
-    <view class="column">
+    <view class="column-picker">
       <picker mode='selector' :value="selectedIndexes[2]" :range="options[2]" @change="onPickerChange($event, 2)">
         <view class="picker-wrapper">
           <text class="item">背景图更换频率</text>
@@ -29,13 +29,22 @@
         </view>
       </picker>
     </view>
-    <view class="column">
+    <view class="column-picker">
       <picker mode='selector' :value="selectedIndexes[3]" :range="options[3]" @change="onPickerChange($event, 3)">
         <view class="picker-wrapper">
           <text class="item">背景图片集类型</text>
           <text class="value">{{ settings[3] }}</text>
         </view>
       </picker>
+    </view>
+    <view class="type">计划</view>
+    <view class="column">
+      <!-- <picker mode='selector' :value="selectedIndexes[2]" :range="options[2]" @change="onPickerChange($event, 2)"> -->
+        <!-- <view class="column-wrapper"> -->
+          <text class="item">复习比例（%）【暂时锁定50%】</text>
+          <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" />
+        <!-- </view> -->
+      <!-- </picker> -->
     </view>
     <button class="btn" hover-class="btn--hover" @tap="handleTapSave">保存设置</button>
   </view>
@@ -58,7 +67,8 @@ export default {
         [1, 2, 3, 4, 5],
         ['二次元', '风景', '宠物'],
       ],
-      selectedIndexes: []
+      selectedIndexes: [],
+      reviewRatio: 50,
     }
   },
   computed: {
@@ -119,6 +129,11 @@ export default {
   .column {
     background: #fff;
     border-bottom: 1px solid #e3e3e3;
+    padding: 20px 40px;
+  }
+  .column-picker {
+    background: #fff;
+    border-bottom: 1px solid #e3e3e3;
   }
   .picker-wrapper {
     display: flex;
@@ -149,6 +164,10 @@ export default {
   }
   .btn--hover {
     background: #44ceb2;
+  }
+  slider {
+    margin-left: 0;
+    margin-right: 0;
   }
   // switch {
   //   transform: scale(.8);

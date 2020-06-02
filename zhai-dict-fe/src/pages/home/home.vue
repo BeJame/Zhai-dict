@@ -31,7 +31,7 @@
             <text>进度 {{ ((finishedAmount + learningAmount) / totalAmount * 100).toFixed(2) }}%</text>
             <text>{{ finishedAmount + learningAmount }}/{{ totalAmount }}</text>
           </view>
-          <cardProgress :progress="(finishedAmount + learningAmount) / totalAmount * 100" color="#fff" blankColor="#ffffff60"></cardProgress>
+          <smallProgress :progress="(finishedAmount + learningAmount) / totalAmount * 100" color="#fff" blankColor="#ffffff60"></smallProgress>
         </view>
       </view>
     </view>
@@ -41,7 +41,7 @@
 
 <script>
 import Taro from '@tarojs/taro'
-import cardProgress from "./components/cardProgress.vue"
+import smallProgress from "../../components/smallProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
@@ -52,7 +52,7 @@ const dont = ['摸鱼', '划水', '睡懒觉']
 export default {
   name: 'pHome',
   components: {
-    cardProgress
+    smallProgress
   },
   data() {
     return {

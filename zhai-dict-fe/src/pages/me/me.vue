@@ -27,8 +27,8 @@
         <text class="item">自定义设置</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>
-      <navigator class="column">
-        <text class="item">排行榜</text>
+      <navigator class="column" url="../books/books">
+        <text class="item">单词书选择</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>
       <button plain open-type="feedback" class="column feedback">
