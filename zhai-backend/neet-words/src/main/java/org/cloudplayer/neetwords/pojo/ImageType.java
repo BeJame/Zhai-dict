@@ -1,17 +1,16 @@
 package org.cloudplayer.neetwords.pojo;
 
 public class ImageType {
-    private int id;
-    private String name;
-    private String description;
-    private User user;
-    private int status;
+    private String id; //id
+    private String name; //类型
+    private String description; //描述
+    private String[] urls; //图片来源(后面再说)
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -31,19 +30,11 @@ public class ImageType {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
-    }
+	public String[] getUrls() {
+		return urls;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	public void setUrls(String[] urls) {
+		this.urls = urls;
+	}
 }
