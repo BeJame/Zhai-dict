@@ -2,10 +2,13 @@ package org.cloudplayer.neetwords.service;
 
 
 
+import org.cloudplayer.neetwords.pojo.ImageType;
+
+import java.awt.*;
 import java.util.List;
 
 public interface ImageTypeService {
-    List<String> getNameByUId(int id);
-    List<String> getNameOByUId(int id);
-    void update(List<String> imageTypeList, int id);
+    List<ImageType> getTypeList();
+
+    ImageType getType(String name);
 }
