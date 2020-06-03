@@ -1,38 +1,29 @@
 package org.cloudplayer.neetwords.pojo;
 
 public class User {
-    private int id;
+    private String id;
     private String name;
-    private String password;
-    private String avatar;
-    private int amonutPerDay;
-    private int bookId;
-    private int timesToChangeBackground;
-    private int durationKeepAfterRecite;
-    private int tipsDuration;
+    private String avatar; //图像url 暂时不可用
 
-    public int getId() {
-        return id;
-    }
+    private int finishCount; //打卡
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	//配置信息
+	private String configId;
 
-    public String getName() {
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAvatar() {
@@ -43,43 +34,19 @@ public class User {
         this.avatar = avatar;
     }
 
-    public int getAmonutPerDay() {
-        return amonutPerDay;
-    }
+	public int getFinishCount() {
+		return finishCount;
+	}
 
-    public void setAmonutPerDay(int amonutPerDay) {
-        this.amonutPerDay = amonutPerDay;
-    }
+	public void setFinishCount(int finishCount) {
+		this.finishCount = finishCount;
+	}
 
-    public int getBookId() {
-        return bookId;
-    }
+	public String getConfigId() {
+		return configId;
+	}
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getTimesToChangeBackground() {
-        return timesToChangeBackground;
-    }
-
-    public void setTimesToChangeBackground(int timesToChangeBackground) {
-        this.timesToChangeBackground = timesToChangeBackground;
-    }
-
-    public int getDurationKeepAfterRecite() {
-        return durationKeepAfterRecite;
-    }
-
-    public void setDurationKeepAfterRecite(int durationKeepAfterRecite) {
-        this.durationKeepAfterRecite = durationKeepAfterRecite;
-    }
-
-    public int getTipsDuration() {
-        return tipsDuration;
-    }
-
-    public void setTipsDuration(int tipsDuration) {
-        this.tipsDuration = tipsDuration;
-    }
+	public void setConfigId(String configId) {
+		this.configId = configId;
+	}
 }
