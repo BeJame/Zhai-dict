@@ -55,8 +55,8 @@ export default {
       let result = []
       switch (this.pageState) {
         case 1: result = this.$store.state.progress.todayWords; break
-        case 3: result = this.$store.getters.getLearningWords(99); break
-        case 2: result = this.$store.getters.getLearnedWords(99); break
+        case 2: result = this.$store.getters.getLearningWords(99); break
+        case 3: result = this.$store.getters.getLearnedWords(99); break
         case 4: result = this.$store.getters.getNotLearnWords(999); break
       }
       console.log(this.pageState, result)

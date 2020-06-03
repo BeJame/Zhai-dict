@@ -14,7 +14,7 @@ const getters = {
   // 获取已学习完的单词，按默认顺序
   getLearnedWords: (state: any) => (count?: number, start?: number) => {
     start = start || 0
-    const learned = state.progress.totalProgress.find((item: any) => item.level === 4) || []
+    const learned = state.progress.totalProgress.filter((item: any) => item.level === 4) || []
     let result: Array<any> = []
     console.log('learned', learned)
     if (count) {
@@ -91,9 +91,9 @@ const getters = {
   //   return state.totalProgress.slice(start, start + count)
   // },
   // 读取今天的单词
-  getTodayWords: (state: any, getter: any) => {
-    return state.todayWords
-  },
+  // getTodayWords: (state: any, getter: any) => {
+  //   return state.todayWords
+  // },
 }
 
 
