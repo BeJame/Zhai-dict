@@ -39,12 +39,8 @@
     </view>
     <view class="type">计划</view>
     <view class="column">
-      <!-- <picker mode='selector' :value="selectedIndexes[2]" :range="options[2]" @change="onPickerChange($event, 2)"> -->
-        <!-- <view class="column-wrapper"> -->
-          <text class="item">复习比例（%）【暂时锁定50%】</text>
-          <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" />
-        <!-- </view> -->
-      <!-- </picker> -->
+      <text class="item">复习比例（%）【暂时锁定50%】</text>
+      <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" />
     </view>
     <button class="btn" hover-class="btn--hover" @tap="handleTapSave">保存设置</button>
   </view>

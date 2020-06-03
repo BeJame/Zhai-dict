@@ -125,7 +125,18 @@ export default {
       }
     },
     handleTapKnown() {
-
+      // level: 3+1=4
+      this.$store.commit('progress/setWordLevel', {
+        word: this.display.word,
+        level: 3
+      })
+      this.display.mastered = true
+      this.handleTapNext()
+      Taro.showToast({
+        title: '已掌握',
+        duration: 1000,
+        icon: 'none'
+      })
     },
     handleTapStart() {
       this.state = STATE.spelling
@@ -169,9 +180,6 @@ export default {
         })
       }
     },
-    // handleTapReturn() {
-    //   Taro.navigateBack()
-    // },
     handleTapJump() {
       const word = this.waitingList.splice(0, 1)[0]
       this.waitingList.push(word)
