@@ -36,3 +36,4 @@ deploy_versions/
 .m_temp/
 node_modules/
 .DS_Store
+/.DS_Store
