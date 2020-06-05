@@ -1,5 +1,8 @@
+import VirtualList from '@tarojs/components/virtual-list'
 import Vue from 'vue'
 import store from './store'
+
+Vue.use(VirtualList)
 
 // 暂时解决app.config.ts无法import图标的问题
 require.context('../assets/tabs', false, /\.png$/)
