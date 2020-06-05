@@ -12,7 +12,8 @@ const state = () => ({
       arr.push(`http://test-fe.obs.cn-east-2.myhuaweicloud.com/images/magazine/image${i}.jpg`)
     }
     return arr
-  })()
+  })(),
+  firstBackground: ''
 })
 
 const getters = {
@@ -33,7 +34,15 @@ const actions = {
 }
 
 const mutations = {
-
+  setImagesList(state: any, data: any) {
+    state.imagesList = data
+  },
+  setVocabulary(state: any, data: any) {
+    state.vocabulary = data
+  },
+  setFirstBackground(state: any, data: string) {
+    state.firstBackground = data
+  },
 }
 
 export default {

@@ -2,7 +2,7 @@
   <view id="pSpell" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
     <view class="bg" :style="{'background-image': `url(${bgImageUrl})`}"></view>
     <!-- 预下载下一张图片 -->
-    <view class="bg" :style="{'background-image': `url(${bgImageUrl})`, 'display': 'none'}"></view>
+    <view class="bg" :style="{'background-image': `url(${bgImageUrlNext})`, 'display': 'none'}"></view>
     <view class="header">
       <!-- <text class="go-back" @tap="handleTapReturn">&lt;</text> -->
     </view>
@@ -211,9 +211,8 @@ export default {
     }
   },
   created() {
-    // TODO:尚未检查、处理跨日期
     console.log('state', this.$store.state)
-    this.bgImageUrl = this.$store.getters['resource/getImages'](1)[0]
+    this.bgImageUrl = this.$store.state.resource.firstBackground // 用启动时预加载的图片
     this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
     const target = this.$store.state.progress.todayWords,
       progress = this.$store.state.progress.todayProgress,
