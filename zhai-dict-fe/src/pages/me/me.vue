@@ -3,8 +3,14 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="user-info">
-        <image :src="image.testAvatar" id="avatar" mode="aspectFit" />
-        <view id="name">Be、Jame</view>
+        <image :src="image.testAvatar" id="avatar" mode="aspectFit" @tap="handleTapAvatar" v-if="!sessionId" />
+        <view id="name" v-if="!sessionId">点击登录</view>
+        <view id="avatar" v-if="sessionId">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view id="name" v-if="sessionId">
+          <open-data type="userNickName"></open-data>
+        </view>
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
@@ -45,6 +51,8 @@
 
 <script>
 import Taro from '@tarojs/taro'
+import Api from '../../api/index'
+import { mapState, mapMutations } from 'vuex'
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
 import iconRight from '../../../assets/images/icon_right.png'
@@ -71,13 +79,43 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('user', {
+      sessionId: state => state.sessionId
+    }),
+  },
   methods: {
+    ...mapMutations('user/', [
+      'setSessionId'
+    ]),
     handleTapDev() {
       Taro.showModal({
         title: '开发中',
         showCancel: false,
         content: '开发中，请等待...'
       })
+    },
+    async handleTapAvatar() {
+      try {
+        const res = await Taro.login()
+        if (res.code) {
+          console.log('>>>获取token成功：' + res.code)
+          try {
+            const res2 = await Api.login(res.code)
+            this.setSessionId(res2.openid)
+            Taro.showToast({
+              title: '登陆成功！',
+              duration: 1500
+            })
+          } catch(e) {
+            console.error(e)
+          }
+        } else {
+          console.error(res)
+        }
+      } catch(e) {
+        console.error(e)
+      }
     }
   },
 }
@@ -99,6 +137,8 @@ export default {
       margin: 0 auto;
       border-radius: 100px;
       background: #eee;
+      box-shadow: 0 0 15px 0 #e5e5e5;
+      overflow: hidden;
     }
     #name {
       margin-top: 20px;

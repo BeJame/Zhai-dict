@@ -1,8 +1,11 @@
 import VirtualList from '@tarojs/components/virtual-list'
 import Vue from 'vue'
+import api from './api/index'
 import store from './store'
 
 Vue.use(VirtualList)
+
+Vue.prototype.$api = api
 
 // 暂时解决app.config.ts无法import图标的问题
 require.context('../assets/tabs', false, /\.png$/)

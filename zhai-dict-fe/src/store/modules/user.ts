@@ -46,6 +46,9 @@ const mutations = {
   assignConfig(state: any, config: any) {
     state.config = {...state.config, ...config}
   },
+  setSessionId(state: any, id: string) {
+    state.sessionId = id
+  }
 }
 
 export default {
