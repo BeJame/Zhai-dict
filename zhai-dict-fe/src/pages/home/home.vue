@@ -91,6 +91,16 @@ export default {
         url: '../books/books'
       })
     }
+  },
+  onLoad() {
+    // 临时解决首张图片问题，后续根据图片类型处理
+    const bg = 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg'
+    Taro.getImageInfo({
+      src: bg,
+      success: () => {
+        this.$store.commit('resource/setFirstBackground', bg)
+      }
+    })
   }
 }
 </script>

@@ -41,7 +41,8 @@ const getters = {
   },
   todayNewLearnedAmount(state: any, getters) {
     // TODO:僵硬。看看能不能改。
-    return getters.todayFinished.filter(item => (state.todayWords.find(item2 => item2.word === item)?.level === 0)).length
+    // 考虑到目前“已掌握”时的粗糙做法，level只在totalProgress中正确而非todayWords
+    return getters.todayFinished.filter(item => (state.totalProgress.find(item2 => item2.word === item)?.level === 0)).length
   },
   // totalFinished(state: any) {
   //   // 有误
@@ -109,6 +110,9 @@ const mutations = {
   },
   setTodayWords(state: any, words: Array<any>) {
     return state.todayWords = words
+  },
+  setWordLevel(state: any, { word, level }: { word: String, level: number}) {
+    state.totalProgress.find(item => item.word === word).level = level
   },
   setValidDate(state: any, date: string) {
     return state.validDate = date
