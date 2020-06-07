@@ -11,9 +11,11 @@ public class Configuration {
 	private String imageType;
 	private String collectionId;  //收藏的id
 
+	public Configuration() {
+	}
 
 	//默认配置
-	public Configuration() {
+	public Configuration(String userId) {
 		this.amountPerDay = 20;
 		this.bookId = 1;
 		this.timesToChangeBackground = 1;
@@ -21,6 +23,7 @@ public class Configuration {
 		this.tipsDuration = 1500;
 		this.imageType = "二次元";
 		this.collectionId = null;
+		this.userId = userId;
 	}
 
 	public String getId() {

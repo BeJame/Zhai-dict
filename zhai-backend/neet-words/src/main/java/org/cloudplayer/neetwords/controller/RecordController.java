@@ -24,7 +24,7 @@ public class RecordController {
 	 * @return
 	 */
 	@RequestMapping(value = "/record", method = RequestMethod.POST)
-    public ResponseEntity syncRecord(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> syncRecord(@RequestBody Map<String, Object> body) {
         List<Record> list = (List<Record>) body.get("record");
         RecordList recordList = new RecordList();
         recordList.setUserId((String) body.get("userId"));
@@ -39,7 +39,7 @@ public class RecordController {
 	 * @return
 	 */
 	@RequestMapping(value = "/record", method = RequestMethod.GET)
-    public ResponseEntity getRecord(@RequestParam("id")String userId){
+    public ResponseEntity<Map<String, Object>> getRecord(@RequestParam("id")String userId){
 
 	    RecordList list = userService.getRecord(userId);
         Map<String, Object> res = new HashMap<>();

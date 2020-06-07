@@ -29,7 +29,7 @@ public class ImageController {
      * @return
      */
     @RequestMapping("/images")
-    public ResponseEntity listStudent(@RequestParam String type) {
+    public ResponseEntity<Map<String, Object>> listStudent(@RequestParam String type) {
         Map<String, Object> res = new HashMap<>();
 
         //type=list

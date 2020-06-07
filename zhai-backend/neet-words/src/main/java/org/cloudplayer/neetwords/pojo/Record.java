@@ -4,18 +4,17 @@ import java.util.Date;
 
 public class Record {
 
-	private int id;
+	private String id;
 	private String word;//单词
 	private Date date;//日期
 	private int level;//熟练度
-	private int userId;//用户id
+	private String userId;//用户id
 
-
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -43,11 +42,11 @@ public class Record {
 		this.level = level;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 }

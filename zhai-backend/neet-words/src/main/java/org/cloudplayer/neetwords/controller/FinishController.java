@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * 打卡
  */
@@ -25,7 +27,7 @@ public class FinishController {
 	 */
     @RequestMapping("/finish")
     //和前端配合时加入,@RequestBody int uid
-    public ResponseEntity addFinish(@RequestParam int count, @RequestParam("openId")String openId){
+    public ResponseEntity<Map<String, Object>> addFinish(@RequestParam int count, @RequestParam("id")String openId){
 		userService.finish(count, openId); //数据修改
         return ResponseEntity.ok(JsonUtil.success());
     }

@@ -1,10 +1,7 @@
 package org.cloudplayer.neetwords.service;
 
 
-import org.cloudplayer.neetwords.pojo.Configuration;
-import org.cloudplayer.neetwords.pojo.Record;
-import org.cloudplayer.neetwords.pojo.RecordList;
-import org.cloudplayer.neetwords.pojo.User;
+import org.cloudplayer.neetwords.pojo.*;
 
 public interface UserService {
     User getUserById(String id);
@@ -42,4 +39,6 @@ public interface UserService {
 	 * @param userId
 	 */
 	RecordList getRecord(String userId);
+
+
 }
