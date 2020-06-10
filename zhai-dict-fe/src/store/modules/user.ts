@@ -30,8 +30,8 @@ const getters = {
 const actions = {
   async fetchCollection({ commit }) {
     const res = await Api.getCollection()
-    if (res.wordsCollection?.length) {
-      const arr = res.wordsCollection.split(';')
+    if (res.collection.wordsCollection?.length) {
+      const arr = res.collection.wordsCollection.split(';')
       commit('setCollection', arr)
     } else {
       console.log('>>>云端收藏单词为空')
