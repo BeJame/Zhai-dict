@@ -23,7 +23,10 @@ export default class Api {
   }
 
   static setConfig(config: any) {
-    return req.post('/config', config)
+    return req.post('/config', {
+      ...config,
+      userId: this.userId()
+    })
   }
 
   static getRecord() {
@@ -54,6 +57,7 @@ export default class Api {
     } else if (Array.isArray(collection)) {
       const collectionStr = collection.join(';')
       return req.post('/collection', {
+        userId: this.userId(),
         wordsCollection: collectionStr
       })
     }
