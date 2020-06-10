@@ -16,14 +16,12 @@ const getters = {
     start = start || 0
     const learned = state.progress.totalProgress.filter((item: any) => item.level === 4) || []
     let result: Array<any> = []
-    console.log('learned', learned)
     if (count) {
       result = learned.slice(start, start + count)
     } else {
       result = learned
     }
     // 填充中文含义及发音
-    console.log('learned', result)
     return result.map((item: any) => {
       const wordData = state.resource.vocabulary.find((item2: any) => item2.content === item.word)
       return {
@@ -41,7 +39,6 @@ const getters = {
     if (start === undefined || start === null) {
       // 未给定start，获取每日新单词使用
       const randArr = getRandomInt(0, notLearn.length - 1, count)
-      console.log('notLearnInner', randArr,count)
       for(const idx of randArr) {
         result.push(notLearn[idx])
       }
@@ -49,7 +46,6 @@ const getters = {
       // 给定start，历史记录中使用
       result = notLearn.slice(start, start + count)
     }
-    console.log('notLearn: ', result, notLearn)
     return result.map((item: any) => {
       const wordData = state.resource.vocabulary.find((item2: any) => item2.content === item.word)
       return {
@@ -75,7 +71,6 @@ const getters = {
       // 给定start，历史记录中使用
       result = learning.slice(start, start + count)
     }
-    console.log('learning: ', result, learning)
     return result.map((item: any) => {
       const wordData = state.resource.vocabulary.find((item2: any) => item2.content === item.word)
       // delete item.date
@@ -96,8 +91,28 @@ const getters = {
   // },
 }
 
+const state = {
+  // hadSynced: false,
+  // dataUpToDate: {
+  //   settingAndConfig: false,
+  //   collection: false,
+  //   progress: false
+  // }
+  // test: []
+}
+
+const mutations = {
+  // test(state, data) {
+  //   state.test = data
+
+  //   Taro.showToast({
+  //     title: 'ok'
+  //   })
+  // }
+}
 
 const debug = process.env.NODE_ENV !== 'production'
+
 export default new Vuex.Store({
   modules: {
     progress,
@@ -105,6 +120,8 @@ export default new Vuex.Store({
     user
   },
   strict: debug,
+  state,
+  mutations,
   getters,
   plugins: [
     createPersistedState({

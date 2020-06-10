@@ -1,3 +1,5 @@
+import Api from '../../api/index'
+
 const state = () => ({
   sessionId: '',
   info: {
@@ -6,7 +8,7 @@ const state = () => ({
   },
   config: {
     amountPerDay: 10, //每日背诵数量
-    bookId: 123, //单词书Id
+    bookId: 1, //单词书Id
   },
   settings: {
     durationKeepAfterRecite: 1500, //单词拼写完成后停留多长时间（ms）
@@ -26,10 +28,40 @@ const getters = {
 }
 
 const actions = {
-
+  async fetchCollection({ commit }) {
+    const res = await Api.getCollection()
+    if (res.wordsCollection?.length) {
+      const arr = res.wordsCollection.split(';')
+      commit('setCollection', arr)
+    } else {
+      console.log('>>>云端收藏单词为空')
+    }
+  },
+  async syncCollection({ state }) {
+    await Api.setCollection(state.collection)
+  },
+  async fetchSettingAndConfig({ commit }) {
+    const res = await Api.getConfig()
+    if (res.config) {
+      commit('assignConfig', {
+        amountPerDay: res.amountPerDay,
+        bookId: res.bookId
+      })
+      delete res.amountPerDay
+      delete res.bookId
+      commit('setSettings', res)
+    }
+  },
+  async syncSettingAndConfig({ state }) {
+    const data = Object.assign({}, state.config, state.settings)
+    await Api.setConfig(data)
+  },
 }
 
 const mutations = {
+  setCollection(state: any, collection: Array<any>) {
+    state.collection = collection
+  },
   addCollection(state: any, word: string) {
     state.collection.push(word)
   },

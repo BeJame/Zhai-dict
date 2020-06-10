@@ -8,7 +8,7 @@
     <view class="learning-wrapper" v-if="bookList.length">
       <image :src="learningBook.image" class="book-img" />
       <view class="learning-body">
-        <view class="title">{{ learningBook.title }}</view>
+        <view class="title">{{ learningBook.name }}</view>
         <view class="plan">
           每日新学<text id="number"> {{ userConfig.amountPerDay }} </text>词
           <picker mode="multiSelector" @ :value="userConfig.amountPerDay"
@@ -30,7 +30,7 @@
         <view class="book-card">
           <image :src="book.image" class="book-img" />
           <view class="card-body">
-            <view class="title">{{ book.title }}<text v-show="book.bookId === learningBook.bookId">（学习中）</text></view>
+            <view class="title">{{ book.name }}<text v-show="book.bookId === learningBook.bookId">（学习中）</text></view>
             <view class="desc">共{{ book.totalWords }}词 | {{ book.description }}</view>
             <view class="btn-book" @tap="handleTapBook($event, index)" v-if="book.bookId !== learningBook.bookId">学习此书</view>
             <view class="btn-book btn-book-locked" v-else>正在学习</view>
@@ -44,12 +44,13 @@
 
 <script>
 import Taro from '@tarojs/taro'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import smallProgress from "../../components/smallProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
 import edit from '../../../assets/icon/edit.png'
+import Api from '../../api'
 
 export default {
   name: 'pageBooks',
@@ -66,7 +67,7 @@ export default {
       bookList: [
         // {
         //   bookId: 123,
-        //   title: '四级词汇',
+        //   name: '四级词汇',
         //   description: '普通的四级词汇',
         //   image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
         //   totalWords: 1000,
@@ -96,24 +97,58 @@ export default {
     }
   },
   methods: {
-    handleTapBook(e, index) {
-      Taro.showModal({
-        title: '提示',
-        content: '即将更换单词书为《' + this.bookList[index].title + '》，是否确认？',
-        success: ({ confirm }) => {
-          if (confirm) {
+    async handleTapBook(e, index) {
+      try {
+        const { confirm } = await Taro.showModal({
+          title: '提示',
+          content: '即将更换单词书为《' + this.bookList[index].name + '》，是否确认？',
+        })
+        if (confirm) {
+          console.time('下载')
+          Taro.showLoading({
+            title: '(1/4)下载中'
+          })
+          const res = await Api.getBook(this.bookList[index].bookId)
+          console.timeEnd('下载')
+          if (res) {
             Taro.showLoading({
-              title: '下载中'
+              title: '(2/4)保存中'
             })
+            console.time('保存')
+            // TODO: 数量过多会卡死
+            this.$store.commit('resource/setVocabulary', res)
             this.$store.commit('user/assignConfig', {
               bookId: this.bookList[index].bookId
             })
-            setTimeout(() => {
-              Taro.hideLoading()
-            }, 1000)
+            console.timeEnd('保存')
+            Taro.showLoading({
+              title: '(3/4)初始化中'
+            })
+            console.time('初始化')
+            await this.$store.dispatch('progress/initTotalProgress')
+            console.timeEnd('初始化')
+            Taro.showLoading({
+              title: '(4/4)更新中'
+            })
+            console.time('更新单词')
+            await this.$store.dispatch('progress/updateTodayData', true)
+            console.timeEnd('更新单词')
+            this.$store.dispatch('user/syncSettingAndConfig')
+            Taro.hideLoading()
+            Taro.showToast({
+              title: '更新完成',
+              duration: 1500
+            })
+          } else {
+            Taro.hideLoading()
+            Taro.showToast({
+              title: '更新出错',
+              duration: 3000,
+              icon: 'none'
+            })
           }
         }
-      })
+      } catch {}
     },
     onNowPickerChange(e) {
       // TODO: 临时用两数之和
@@ -121,34 +156,22 @@ export default {
         amountPerDay: this.amountList[e.detail.value[0]] + this.amountList[e.detail.value[1]]
       })
       this.$store.dispatch('progress/updateTodayData', true)
+      this.$store.dispatch('user/syncSettingAndConfig', true)
     }
   },
-  created() {
+  async created() {
     this.amountIndex = this.amountList.indexOf(this.userConfig.amountPerDay)
     Taro.showLoading({
       title: '加载列表'
     })
-    setTimeout(() => {
-      this.bookList = [
-        {
-          bookId: 123,
-          title: '四级词汇',
-          description: '普通的四级词汇',
-          image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
-          totalWords: 1000,
-          learnedWords: 1
-        },
-        {
-          bookId: 124,
-          title: '六级词汇',
-          description: '高端的六级词汇',
-          image: 'https://s.cn.bing.net/th?id=ODL.0bd0bed02eca60b4cab9d0ac6206406e&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
-          totalWords: 2000,
-          learnedWords: 1
-        },
-      ]
+    try {
+      const res = await Api.getBookList()
+      this.bookList = res.bookList
+    } catch(e) {
+      console.error(e)
+    } finally {
       Taro.hideLoading()
-    }, 1000);
+    }
   }
 }
 </script>

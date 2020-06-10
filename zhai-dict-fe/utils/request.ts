@@ -13,6 +13,10 @@ const interceptor = function (chain) {
   return chain.proceed(requestParams)
     .then(res => {
       console.log(`HTTP <-- ${url} result:`, res)
+      if (Array.isArray(res.data) && url.includes('/books/')) {
+        // 单词书不作处理
+        return res.data
+      }
       if (res.data.code === 200) {
         return res.data.data
       } else {
