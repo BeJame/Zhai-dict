@@ -49,6 +49,7 @@
 <script>
 import Taro from '@tarojs/taro'
 import { mapState } from 'vuex'
+import Api from '../../api'
 
 export default {
   name: 'pageSettings',
@@ -61,10 +62,11 @@ export default {
         [0, 1, 1.5, 2, 2.5, 3, 4, 5],
         [1, 3, 5],
         [1, 2, 3, 4, 5],
-        ['二次元', '风景', '宠物'],
+        ['二次元'],
       ],
       selectedIndexes: [],
       reviewRatio: 50,
+      imageUrlList: [],
     }
   },
   computed: {
@@ -80,7 +82,7 @@ export default {
       // this.selectedIndexes[index] = parseInt(e.detail.value)
       this.$set(this.selectedIndexes, index, parseInt(e.detail.value))
     },
-    handleTapSave() {
+    async handleTapSave() {
       const s = this.settings
       console.log(this.settings, this.selectedIndexes)
       this.$store.commit('user/setSettings', {
@@ -89,23 +91,32 @@ export default {
         timesToChangeBackground: s[2], //背多少个单词换一次背景图
         imagesType: s[3], // 图片集类型
       })
-      Taro.showToast({
-        title: '修改成功！',
-        success() {
-          setTimeout(() => {
-            Taro.navigateBack()
-          }, 1000);
-        }
-      })
+      this.$store.commit('resource/setImagesList', this.imageUrlList[this.selectedIndexes[3]])
+      try {
+        await this.$store.dispatch('user/syncSettingAndConfig')
+        Taro.showToast({
+          title: '修改成功！',
+          success() {
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1000);
+          }
+        })
+      } catch {}
     }
   },
-  created() {
+  async created() {
+    const res = await Api.getImageType()
+    this.$set(this.options, 3, res.typeList.map(item => item.description))
+    this.imageUrlList = res.typeList.map(item => item.urls)
     const settings = Object.values(this.$store.state.user.settings)
     settings[0] /= 1000
     settings[1] /= 1000
     settings.forEach((v, k) => {
       this.selectedIndexes.push(this.options[k].indexOf(v))
     })
+
+    console.log('data', this.$data)
   }
 }
 </script>

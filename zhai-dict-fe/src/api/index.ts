@@ -1,6 +1,9 @@
 import req from '../../utils/request'
+import store from '../store/index'
 
-export default class MainApi {
+export default class Api {
+  static userId = () => store.state.user.sessionId
+
   static login(code: string) {
     return req.post('/login', { code })
   }
@@ -14,7 +17,9 @@ export default class MainApi {
   }
 
   static getConfig() {
-    return req.get('/config')
+    return req.get('/config', {
+      id: this.userId()
+    })
   }
 
   static setConfig(config: any) {
@@ -22,11 +27,36 @@ export default class MainApi {
   }
 
   static getRecord() {
-    return req.get('/record')
+    return req.get('/record', {
+      id: this.userId()
+    })
   }
 
   static setRecord(record: any) {
-    return req.post('/record', record)
+    return req.post('/record', {
+      ...record,
+      id: this.userId()
+    })
+  }
+
+  static getCollection() {
+    return req.get('/collection', {
+      id: this.userId()
+    })
+  }
+
+  static setCollection(collection: string | Array<any>) {
+    if (typeof collection === 'string') {
+      return req.post('/collection', {
+        userId: this.userId(),
+        wordsCollection: collection
+      })
+    } else if (Array.isArray(collection)) {
+      const collectionStr = collection.join(';')
+      return req.post('/collection', {
+        wordsCollection: collectionStr
+      })
+    }
   }
 
   static postCheckIn() {

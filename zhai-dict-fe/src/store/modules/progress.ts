@@ -1,3 +1,4 @@
+import Api from '../../api/index'
 import moment from 'moment'
 
 const state = () => ({
@@ -77,22 +78,27 @@ const actions = {
       const today = moment().format('YYYY-MM-DD')
       commit('setValidDate', today)
       commit('clearTodayProgress')
+      // 同步进度
+      dispatch('syncWordProgress')
     }
     console.log('>>>昨天已经背完单词或还没有跨天')
-    console.log(moment().toString())
   },
   async initTotalProgress({ rootState, commit }) {
-    // commit('assignTodayProgress',{
-    //   word: 'abandon',
-    //   date: '2020-02-02',
-    //   level: 1 //熟练度
-    // })
-    // TODO:sync from cloud
+    // TODO: sync from cloud
     const initTotal: Array<any> = rootState.resource.vocabulary.map((item: any) => ({
       word: item.content,
       level: 0,
     }))
     commit('setTotalProgress', initTotal)
+  },
+  async fetchWordProgress({ commit }) {
+    const res = await Api.getRecord()
+    if (res.recordList){
+      commit('setTotalProgress', res.recordList)
+    }
+  },
+  async syncWordProgress({ state }) {
+    await Api.setRecord(state.totalProgress)
   }
 }
 

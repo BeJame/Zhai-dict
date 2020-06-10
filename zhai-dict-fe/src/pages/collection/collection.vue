@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-
+      modified: false,
     }
   },
   computed: {
@@ -34,12 +34,18 @@ export default {
   methods: {
     handleTapRemove(word) {
       this.$store.commit('user/cancelCollection', word)
+      this.modified = true
       Taro.showToast({
         title: '取消收藏',
         duration: 1500
       })
     }
   },
+  beforeDestroy() {
+    if (this.modified) {
+      this.$store.dispatch('user/syncCollection')
+    }
+  }
 }
 </script>
 

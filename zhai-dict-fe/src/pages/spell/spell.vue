@@ -170,6 +170,7 @@ export default {
         this.display = {...this.waitingList[0]}
         this.display.mastered = false
       } else {
+        this.$store.dispatch('progress/syncWordProgress')
         Taro.showModal({
           title: '完成',
           content: '您已经背完了今天的单词，可以休息一下啦~',
@@ -237,6 +238,9 @@ export default {
       this.display.mastered = false
     }
   },
+  beforeDestroy() {
+    this.$store.dispatch('user/syncCollection')
+  }
 }
 </script>
 

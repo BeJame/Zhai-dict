@@ -3,8 +3,8 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="welcome-text">{{ welcomeText }}</view>
-      <view class="check-in-record">
-        打卡日历
+      <view class="check-in-record" @tap="handleTapSync">
+        云端同步
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
@@ -89,6 +89,19 @@ export default {
     handleTapChangePlan() {
       Taro.navigateTo({
         url: '../books/books'
+      })
+    },
+    async handleTapSync() {
+      Taro.showLoading({
+        title: '同步中...'
+      })
+      await this.$store.dispatch('user/syncCollection')
+      await this.$store.dispatch('user/syncSettingAndConfig')
+      await this.$store.dispatch('progress/syncWordProgress')
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '同步完成',
+        duration: 1500
       })
     }
   },
