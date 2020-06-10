@@ -68,7 +68,7 @@ export default {
         total: 0
       },
 
-      bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
+      bgImageUrl: '',
       bgImageUrlNext: '',
       bgCount: 0,
       bgRatio: 0,

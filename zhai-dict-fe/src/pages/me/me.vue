@@ -3,12 +3,10 @@
     <view class="header">
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="user-info">
-        <image :src="image.testAvatar" id="avatar" mode="aspectFit" @tap="handleTapAvatar" v-if="!sessionId" />
-        <view id="name" v-if="!sessionId">点击登录</view>
-        <view id="avatar" v-if="sessionId">
+        <view id="avatar">
           <open-data type="userAvatarUrl"></open-data>
         </view>
-        <view id="name" v-if="sessionId">
+        <view id="name">
           <open-data type="userNickName"></open-data>
         </view>
       </view>
@@ -59,7 +57,6 @@ import iconRight from '../../../assets/images/icon_right.png'
 import book1 from '../../../assets/images/book1.png'
 import book2 from '../../../assets/images/book2.png'
 import book4 from '../../../assets/images/book4.png'
-import testAvatar from '../../../assets/images/test-avatar.svg'
 
 export default {
   name: 'pageMe',
@@ -75,7 +72,6 @@ export default {
         book1,
         book2,
         book4,
-        testAvatar
       }
     }
   },
@@ -95,28 +91,6 @@ export default {
         content: '开发中，请等待...'
       })
     },
-    async handleTapAvatar() {
-      try {
-        const res = await Taro.login()
-        if (res.code) {
-          console.log('>>>获取token成功：' + res.code)
-          try {
-            const res2 = await Api.login(res.code)
-            this.setSessionId(res2.openid)
-            Taro.showToast({
-              title: '登陆成功！',
-              duration: 1500
-            })
-          } catch(e) {
-            console.error(e)
-          }
-        } else {
-          console.error(res)
-        }
-      } catch(e) {
-        console.error(e)
-      }
-    }
   },
 }
 </script>

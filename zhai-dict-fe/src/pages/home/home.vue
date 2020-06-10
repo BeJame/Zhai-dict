@@ -4,7 +4,7 @@
       <image :src="image.dot" id="decorationLeft" mode="aspectFit" />
       <view class="welcome-text">{{ welcomeText }}</view>
       <view class="check-in-record">
-        打卡日历
+        离线版本
       </view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
@@ -23,7 +23,7 @@
         </view>
       </view>
       <view class="book-card">
-        <text class="title">普通单词</text>
+        <text class="title">六级单词</text>
         <view class="btn-change" @tap="handleTapChangePlan">更改</view>
         <view class="progress-area">
           <view class="progress-text">
@@ -94,7 +94,7 @@ export default {
   },
   onLoad() {
     // 临时解决首张图片问题，后续根据图片类型处理
-    const bg = 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg'
+    const bg = 'https://test-fe.obs.cn-east-2.myhuaweicloud.com/images/comic/7.jpg'
     Taro.getImageInfo({
       src: bg,
       success: () => {
@@ -107,7 +107,6 @@ export default {
 
 <style lang="scss">
 @import "../../../styles/common";
-$tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
 
 #pHome {
   padding: 30px;
@@ -181,11 +180,9 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
     box-sizing: border-box;
     padding: 30px;
     margin-bottom: 80px;
-    background: #f5f5f5;
-    background-image: url($tempCardBg);
-    background-size: 100% 240px;
-    background-repeat: no-repeat;
     border-radius: 26px;
+    // background: #11998e;  /* fallback for old browsers */      background: -webkit-linear-gradient(to right, rgb(17, 153, 142), rgb(56, 239, 125));  /* Chrome 10-25, Safari 5.1-6 */      background: linear-gradient(to right, rgb(17, 153, 142), rgb(56, 239, 125)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */          border-radius: 26px;
+    background: #feac5e;  /* fallback for old browsers */      background: -webkit-linear-gradient(to right, rgb(254, 172, 94), rgb(199, 121, 208), rgb(75, 192, 200));  /* Chrome 10-25, Safari 5.1-6 */      background: linear-gradient(to right, rgb(254, 172, 94), rgb(199, 121, 208), rgb(75, 192, 200)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: #fff;
     .title {
       margin-top: 10px;

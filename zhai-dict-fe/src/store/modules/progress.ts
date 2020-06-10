@@ -56,8 +56,6 @@ const actions = {
       reviewWords: Array<any> = rootGetters['getLearningWords'](Math.floor(amount / 2)),
       newWords: Array<any> = rootGetters['getNotLearnWords'](amount - reviewWords.length)
     // return state.todayWords = reviewWords.concat(newWords)
-    console.log('reviewWords', reviewWords)
-    console.log('newWords', newWords)
     commit('setTodayWords', reviewWords.concat(newWords))
     console.log('>>>今日单词更新完成')
   },

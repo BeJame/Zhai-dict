@@ -6,7 +6,7 @@ const state = () => ({
   },
   config: {
     amountPerDay: 10, //每日背诵数量
-    bookId: 123, //单词书Id
+    bookId: 124, //单词书Id
   },
   settings: {
     durationKeepAfterRecite: 1500, //单词拼写完成后停留多长时间（ms）

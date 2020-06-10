@@ -39,8 +39,9 @@
     </view>
     <view class="type">计划</view>
     <view class="column">
-      <text class="item">复习比例（%）【暂时锁定50%】</text>
-      <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" />
+      <text class="item">复习比例（%）</text>
+      <text class="tips">暂时锁定50%</text>
+      <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" :disabled="true"/>
     </view>
     <button class="btn" hover-class="btn--hover" @tap="handleTapSave">保存设置</button>
   </view>

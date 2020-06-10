@@ -134,7 +134,7 @@ export default {
           bookId: 123,
           title: '四级词汇',
           description: '普通的四级词汇',
-          image: 'https://s.cn.bing.net/th?id=ODL.ab6c38bf17c9a40a3134e2d05eb459f5&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
+          image: 'https://is4-ssl.mzstatic.com/image/thumb/Purple118/v4/1a/33/c9/1a33c988-d0a3-4e25-ea08-f97206b9da79/source/512x512bb.jpg',
           totalWords: 1000,
           learnedWords: 1
         },
@@ -142,8 +142,8 @@ export default {
           bookId: 124,
           title: '六级词汇',
           description: '高端的六级词汇',
-          image: 'https://s.cn.bing.net/th?id=ODL.0bd0bed02eca60b4cab9d0ac6206406e&w=94&h=125&c=7&rs=1&qlt=80&dpr=1.25&pid=RichNav',
-          totalWords: 2000,
+          image: 'https://imagev2.xmcdn.com/group69/M07/FF/9C/wKgMb13WTMGicS2zAAAreiDJTFU475.jpg!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=web_large&device_type=ios',
+          totalWords: 2080,
           learnedWords: 1
         },
       ]

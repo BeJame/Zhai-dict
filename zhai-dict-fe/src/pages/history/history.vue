@@ -59,7 +59,6 @@ export default {
         case 3: result = this.$store.getters.getLearnedWords(99); break
         case 4: result = this.$store.getters.getNotLearnWords(999); break
       }
-      console.log(this.pageState, result)
       this.wordList = result
     }
   },
