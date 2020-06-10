@@ -1,9 +1,9 @@
 package org.cloudplayer.neetwords.service;
 
-import java.util.List;
+import org.cloudplayer.neetwords.pojo.Collection;
+
 
 public interface CollectionService {
-    List<String> getNameByUId(int id);
-    List<String> getNameOByUId(int id);
-    void update(List<String> collectionList, int id);
+    void saveCollection(Collection collection);
+    Collection getCollection(String userId);
 }

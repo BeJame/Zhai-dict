@@ -2,10 +2,15 @@ package org.cloudplayer.neetwords.pojo;
 
 public class Collection {
     private String id; // objectId
-    private String name;
-    private int userId;
-    private int status;//初始化为0，删除收藏设置1
+    private String userId;
 	private String wordsCollection;  //用分号分隔单词
+
+	public Collection() {
+	}
+
+	public Collection(String userId) {
+		this.userId = userId;
+	}
 
 	public String getId() {
 		return id;
@@ -15,32 +20,16 @@ public class Collection {
 		this.id = id;
 	}
 
-	public String getName() {
-        return name;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-	public String[] getWordsCollection() {
-		return wordsCollection.split(";");
+	public String getWordsCollection() {
+		return wordsCollection;
 	}
 
 	public void setWordsCollection(String wordsCollection) {

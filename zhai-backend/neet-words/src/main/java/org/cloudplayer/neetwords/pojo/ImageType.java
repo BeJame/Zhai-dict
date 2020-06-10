@@ -1,5 +1,7 @@
 package org.cloudplayer.neetwords.pojo;
 
+
+
 public class ImageType {
     private String id; //id
     private String name; //类型

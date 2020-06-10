@@ -1,5 +1,8 @@
 package org.cloudplayer.neetwords.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LoginDto {
 	private String openid;
 	private String session_key;

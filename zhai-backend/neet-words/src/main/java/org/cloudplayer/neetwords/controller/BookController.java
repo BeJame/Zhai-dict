@@ -41,7 +41,7 @@ public class BookController {
 	 * @throws IOException
 	 */
 	@GetMapping("{id}")
-	public ResponseEntity getBookById(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+	public ResponseEntity<Map<String, Object>> getBookById(@PathVariable Integer id, HttpServletResponse response) throws IOException {
 		Book book = bookService.getByBookById(id);
 		response.sendRedirect(book.getCdnAddr());
 		Map<String, Object> res = new HashMap<>();
