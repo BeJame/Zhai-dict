@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"neet-words.config"}],"uuid":"45bdcac51d5e456da18d354e75783235"}
