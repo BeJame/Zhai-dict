@@ -8,7 +8,11 @@ public class Book {
 
 	private String name;
 
+	private String description;
+
 	private int totalWords;
+
+	private String image;
 
 	private String cdnAddr;
 
@@ -26,6 +30,22 @@ public class Book {
 
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getName() {

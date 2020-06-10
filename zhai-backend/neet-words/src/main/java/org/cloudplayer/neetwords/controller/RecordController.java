@@ -2,6 +2,7 @@ package org.cloudplayer.neetwords.controller;
 
 import org.cloudplayer.neetwords.pojo.Record;
 import org.cloudplayer.neetwords.pojo.RecordList;
+import org.cloudplayer.neetwords.service.BookService;
 import org.cloudplayer.neetwords.service.UserService;
 import org.cloudplayer.neetwords.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public class RecordController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private BookService bookService;
+
+
 	/**
 	 * 同步记录
 	 * @param body
@@ -25,10 +30,16 @@ public class RecordController {
 	 */
 	@RequestMapping(value = "/record", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> syncRecord(@RequestBody Map<String, Object> body) {
-        List<Record> list = (List<Record>) body.get("record");
+        List<Record> list = (List<Record>) body.get("recordList");
         RecordList recordList = new RecordList();
         recordList.setUserId((String) body.get("userId"));
         recordList.setRecordList(list);
+        recordList.setBookId((Integer) body.get("bookId"));
+
+        //统计单词书进度
+
+
+
         userService.record(recordList);
 		return ResponseEntity.ok(JsonUtil.success());
     }
