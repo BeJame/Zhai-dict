@@ -25,7 +25,7 @@
       </navigator>
       <navigator class="button"  url="../books/books" hover-class="none">
         <image class="icon" :src="image.book4"></image>
-        <text class="type">单词书选择</text>
+        <text class="type">词书选择</text>
       </navigator>
     </view>
     <view class="columns-wrapper">
@@ -37,17 +37,17 @@
         <text class="item">意见反馈</text>
         <image class="icon" :src="image.iconRight" />
       </button>
-      <navigator class="column" url="">
+      <!-- <navigator class="column" url="">
         <text class="item">使用条款</text>
         <image class="icon" :src="image.iconRight" />
-      </navigator>
+      </navigator> -->
       <navigator url="../about/about" class="column">
         <text class="item">软件说明</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>
     </view>
     <view class="footer">
-      <view>v1.2.0 | copyright&copy;11组-云玩家All rights reserved.</view>
+      <view>v1.4.1 | copyright&copy;云玩家All rights reserved.</view>
     </view>
   </view>
 </template>
