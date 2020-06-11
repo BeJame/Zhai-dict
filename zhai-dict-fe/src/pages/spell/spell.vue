@@ -1,8 +1,8 @@
 <template>
-  <view id="pSpell" @keypress="handleKeypress" :style="{'background-color': `rgba(0, 0, 0, ${1 - bgRatio})`}">
-    <view class="bg" :style="{'background-image': `url(${bgImageUrl})`}"></view>
+  <view id="pSpell" :style="{'background-color': isUsingBlur ? 'rgba(0, 0, 0, 0.1)' : `rgba(0, 0, 0, ${1 - bgRatio})`}">
+    <view class="bg" ref="bg" :style="{'background-image': `url(${bgImageUrl})`}"></view>
     <!-- 预下载下一张图片 -->
-    <view class="bg" :style="{'background-image': `url(${bgImageUrlNext})`, 'display': 'none'}"></view>
+    <view :style="{'background-image': `url(${bgImageUrlNext})`, 'display': 'none'}"></view>
     <view class="header">
       <!-- <text class="go-back" @tap="handleTapReturn">&lt;</text> -->
     </view>
@@ -68,7 +68,7 @@ export default {
         total: 0
       },
 
-      bgImageUrl: 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg',
+      bgImageUrl: '',
       bgImageUrlNext: '',
       bgCount: 0,
       bgRatio: 0,
@@ -91,6 +91,9 @@ export default {
       get() {
         return this.$store.state.user.collection.includes(this.display.word)
       }
+    },
+    isUsingBlur() {
+      return this.$store.state.user.settings.transitionType === '模糊渐变'
     }
   },
   methods: {
@@ -103,6 +106,10 @@ export default {
       const input =  this.userInput
       if (this.display.word.startsWith(input)) {
         this.bgRatio = input.length / this.display.word.length
+        if (this.isUsingBlur) {
+          // 设置为模糊渐变
+          this.$refs.bg.style.filter = `blur(${10 - this.bgRatio * 10}px)`
+        }
         // onFinishSpelling
         if (this.display.word.length === input.length) {
           this.display.mastered = true
@@ -114,7 +121,7 @@ export default {
                 this.handleTapNext()
               }, time);
             }
-          }, 400);
+          }, 150);
         }
       }
     },
@@ -153,8 +160,7 @@ export default {
       // 更换图片（注意渐变）
       setTimeout(() => {
         this.changeBgImage()
-      }, 500);
-      // 保存到vuex
+      }, 800);
       this.$store.commit('progress/assignTodayProgress', {
         [this.display.word]: this.display.mastered
       })
@@ -205,11 +211,11 @@ export default {
         this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
         this.bgCount = 0
       }
+      if (this.isUsingBlur) {
+        // 处理模糊渐变
+        this.$refs.bg.style.filter = 'blur(10px)'
+      }
     },
-
-
-    handleKeypress(e) {
-    }
   },
   created() {
     console.log('state', this.$store.state)
@@ -238,6 +244,12 @@ export default {
       this.display.mastered = false
     }
   },
+  mounted() {
+    if (this.isUsingBlur) {
+      // 设置为模糊渐变
+      this.$refs.bg.style.filter = 'blur(10px)'
+    }
+  },
   beforeDestroy() {
     this.$store.dispatch('user/syncCollection')
   }
@@ -253,16 +265,21 @@ export default {
   box-sizing: border-box;
   min-height: 100vh;
   padding: 20px;
-  background: #000;
+  background-color: #000;
   transition: background-color .5s;
   color: #fff;
   .bg {
     position: fixed;
-    background-size: contain;
     height: 100%;
     width: 100%;
     margin: -20px;
+    background-size: cover;
+    background-position: center;
+    transition: filter .5s;
     z-index: -1;
+  }
+  .bg--blur {
+    filter: blur(10Px);
   }
   .assist-buttons {
     text {

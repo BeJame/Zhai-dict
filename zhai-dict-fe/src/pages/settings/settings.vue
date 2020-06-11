@@ -37,9 +37,18 @@
         </view>
       </picker>
     </view>
+    <view class="column-picker">
+      <picker mode='selector' :value="selectedIndexes[4]" :range="options[4]" @change="onPickerChange($event, 4)">
+        <view class="picker-wrapper">
+          <text class="item">渐变方式</text>
+          <text class="value">{{ settings[4] }}</text>
+        </view>
+      </picker>
+    </view>
     <view class="type">计划</view>
     <view class="column">
-      <text class="item">复习比例（%）【暂时锁定50%】</text>
+      <text class="item">复习比例（%）</text>
+      <text class="tips">暂时锁定50%</text>
       <slider :value="reviewRatio" min="30" max="70" block-size="20" step="5" :show-value="true" />
     </view>
     <button class="btn" hover-class="btn--hover" @tap="handleTapSave">保存设置</button>
@@ -63,6 +72,7 @@ export default {
         [1, 3, 5],
         [1, 2, 3, 4, 5],
         ['二次元'],
+        ['透明度渐变', '模糊渐变'],
       ],
       selectedIndexes: [],
       reviewRatio: 50,
@@ -90,6 +100,7 @@ export default {
         tipsDuration: s[1] * 1000, //提示弹窗的展示时长（ms）
         timesToChangeBackground: s[2], //背多少个单词换一次背景图
         imagesType: s[3], // 图片集类型
+        transitionType: s[4], // 渐变方式
       })
       this.$store.commit('resource/setImagesList', this.imageUrlList[this.selectedIndexes[3]])
       try {

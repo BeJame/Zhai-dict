@@ -2,7 +2,12 @@ import req from '../../utils/request'
 import store from '../store/index'
 
 export default class Api {
-  static userId = () => store.state.user.sessionId
+  static userId() {
+    return store.state.user.sessionId
+  }
+  static bookId() {
+    return store.state.user.config.bookId
+  }
 
   static login(code: string) {
     return req.post('/login', { code })
@@ -29,16 +34,18 @@ export default class Api {
     })
   }
 
-  static getRecord() {
+  static getRecord(bookId?: string) {
     return req.get('/record', {
-      id: this.userId()
+      id: this.userId(),
+      bookId: bookId || this.bookId()
     })
   }
 
-  static setRecord(record: any) {
+  static setRecord(record: any, bookId?: string) {
     return req.post('/record', {
-      ...record,
-      id: this.userId()
+      recordList: record,
+      userId: this.userId(),
+      bookId: bookId || this.bookId()
     })
   }
 

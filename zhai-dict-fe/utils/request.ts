@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { logError } from './util'
 
-const baseUrl = 'http://lunacia.site:8040/api'
+const baseUrl = 'https://lunacia.site/api'
 
 // Taro.addInterceptor(Taro.interceptors.logInterceptor)
 // Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)

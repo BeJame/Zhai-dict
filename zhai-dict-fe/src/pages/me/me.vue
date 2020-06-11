@@ -23,28 +23,31 @@
         <image class="icon" :src="image.book2"></image>
         <text class="type">学习记录</text>
       </navigator>
-      <view class="button" @tap="handleTapDev" hover-class="none">
+      <navigator class="button"  url="../books/books" hover-class="none">
         <image class="icon" :src="image.book4"></image>
-        <text class="type">笔记练习</text>
-      </view>
+        <text class="type">单词书选择</text>
+      </navigator>
     </view>
     <view class="columns-wrapper">
       <navigator class="column" url="../settings/settings">
         <text class="item">自定义设置</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>
-      <navigator class="column" url="../books/books">
-        <text class="item">单词书选择</text>
-        <image class="icon" :src="image.iconRight" />
-      </navigator>
       <button plain open-type="feedback" class="column feedback">
         <text class="item">意见反馈</text>
         <image class="icon" :src="image.iconRight" />
       </button>
-      <navigator url="../about/about" class="column">
-        <text class="item">关于我们</text>
+      <navigator class="column" url="">
+        <text class="item">使用条款</text>
         <image class="icon" :src="image.iconRight" />
       </navigator>
+      <navigator url="../about/about" class="column">
+        <text class="item">软件说明</text>
+        <image class="icon" :src="image.iconRight" />
+      </navigator>
+    </view>
+    <view class="footer">
+      <view>v1.2.0 | copyright&copy;11组-云玩家All rights reserved.</view>
     </view>
   </view>
 </template>
@@ -88,13 +91,6 @@ export default {
     ...mapMutations('user/', [
       'setSessionId'
     ]),
-    handleTapDev() {
-      Taro.showModal({
-        title: '开发中',
-        showCancel: false,
-        content: '开发中，请等待...'
-      })
-    },
     async handleTapAvatar() {
       try {
         const res = await Taro.login()
@@ -207,6 +203,15 @@ export default {
         border: none;
       }
     }
+  }
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    color: #909399;
   }
 }
 </style>

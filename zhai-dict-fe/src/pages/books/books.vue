@@ -5,7 +5,7 @@
       <view class="welcome-text">我的学习任务</view>
       <image :src="image.decorationCircle" id="decorationRight" mode="aspectFit" />
     </view>
-    <view class="learning-wrapper" v-if="bookList.length">
+    <view class="learning-wrapper" v-if="bookList.length && learningBook">
       <image :src="learningBook.image" class="book-img" />
       <view class="learning-body">
         <view class="title">{{ learningBook.name }}</view>
@@ -93,7 +93,8 @@ export default {
       return this.$store.getters['progress/totalAmount']
     },
     learningBook() {
-      return this.bookList.find(item => item.bookId === this.userConfig.bookId)
+      // TODO: 暂时处理一些特殊情况
+      return this.bookList.find(item => item.bookId === this.userConfig.bookId) || { bookId: this.userConfig.bookId }
     }
   },
   methods: {

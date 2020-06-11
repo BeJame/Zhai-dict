@@ -4,7 +4,7 @@
 	"description": "a special words reciting mp",
 	"appid": "wx5e80f1c9bd94cb38",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"enhance": false,
 		"postcss": false,

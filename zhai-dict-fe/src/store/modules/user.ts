@@ -16,6 +16,7 @@ const state = () => ({
     // howToDealWithTips: 1, // 点击跳过后如何处理 1:再次拼写正确后算作熟练度+1；2:不增加熟练度
     timesToChangeBackground: 1, //背多少个单词换一次背景图
     imagesType: '二次元', // 图片集类型
+    transitionType: '透明度渐变', // 渐变方式
   },
   collection: [] // 单词收藏
 })
@@ -41,15 +42,19 @@ const actions = {
     await Api.setCollection(state.collection)
   },
   async fetchSettingAndConfig({ commit }) {
-    const res = await Api.getConfig()
-    if (res.config) {
+    const { config } = await Api.getConfig()
+    if (config) {
       commit('assignConfig', {
-        amountPerDay: res.amountPerDay,
-        bookId: res.bookId
+        amountPerDay: config.amountPerDay,
+        bookId: config.bookId
       })
-      delete res.amountPerDay
-      delete res.bookId
-      commit('setSettings', res)
+      commit('setSettings', {
+        durationKeepAfterRecite: config.durationKeepAfterRecite,
+        tipsDuration: config.tipsDuration,
+        timesToChangeBackground: config.timesToChangeBackground,
+        imagesType: config.imagesType,
+        // transitionType: config.transitionType,
+      })
     }
   },
   async syncSettingAndConfig({ state }) {

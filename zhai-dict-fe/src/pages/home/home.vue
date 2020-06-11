@@ -45,6 +45,7 @@ import smallProgress from "../../components/smallProgress.vue"
 
 import dot from '../../../assets/images/dots.png'
 import decorationCircle from '../../../assets/images/icon-2circle.png'
+import { getRandomInt } from '../../../utils/util'
 
 const doit = ['外出', '看书', '运动', '赶工期']
 const dont = ['摸鱼', '划水', '睡懒觉']
@@ -106,8 +107,8 @@ export default {
     }
   },
   onLoad() {
-    // 临时解决首张图片问题，后续根据图片类型处理
-    const bg = 'https://i.loli.net/2020/05/12/1rRd82ljUOQaNZX.jpg'
+    // 解决首张图片加载问题
+    const bg = this.$store.getters['resource/getImages'](1)[0]
     Taro.getImageInfo({
       src: bg,
       success: () => {
@@ -120,7 +121,7 @@ export default {
 
 <style lang="scss">
 @import "../../../styles/common";
-$tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
+// $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
 
 #pHome {
   padding: 30px;
@@ -194,10 +195,12 @@ $tempCardBg: 'https://i.loli.net/2020/05/11/tlEou1AZpd97SWh.png';
     box-sizing: border-box;
     padding: 30px;
     margin-bottom: 80px;
-    background: #f5f5f5;
-    background-image: url($tempCardBg);
-    background-size: 100% 240px;
-    background-repeat: no-repeat;
+    // background: #f5f5f5;
+    // background-image: url($tempCardBg);
+    // background-size: 100% 240px;
+    // background-repeat: no-repeat;
+    background: #feac5e;
+    background: linear-gradient(to right, rgb(254, 172, 94), rgb(199, 121, 208), rgb(75, 192, 200));
     border-radius: 26px;
     color: #fff;
     .title {
