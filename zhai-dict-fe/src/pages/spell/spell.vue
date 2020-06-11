@@ -104,18 +104,18 @@ export default {
         this.userInput += ch
       }
       const input =  this.userInput
-      if (this.display.word.startsWith(input)) {
+      if (this.display.word.toLowerCase().startsWith(input)) {
         this.bgRatio = input.length / this.display.word.length
         if (this.isUsingBlur) {
-          // 设置为模糊渐变
+          // 设置了模糊渐变
           this.$refs.bg.style.filter = `blur(${10 - this.bgRatio * 10}px)`
         }
         // onFinishSpelling
         if (this.display.word.length === input.length) {
           this.display.mastered = true
+          const time = this.settings.durationKeepAfterRecite
           setTimeout(() => {
             this.state = STATE.spelled
-            const time = this.settings.durationKeepAfterRecite
             if (time > 0) {
               this.timer = setTimeout(() => {
                 this.handleTapNext()
@@ -157,13 +157,13 @@ export default {
         clearTimeout(this.timer)
         this.timer = 0
       }
-      // 更换图片（注意渐变）
-      setTimeout(() => {
-        this.changeBgImage()
-      }, 800);
       this.$store.commit('progress/assignTodayProgress', {
         [this.display.word]: this.display.mastered
       })
+      // 更换图片（注意渐变）
+      setTimeout(() => {
+        this.changeBgImage()
+      }, 500);
       // 对前一个单词做处理
       const word = this.waitingList.shift()
       if (!this.display.mastered) {
