@@ -35,10 +35,6 @@ const App = new Vue({
           try {
             const res2 = await api.login(res.code)
             store.commit('user/setSessionId', res2.openid)
-            // Taro.showToast({
-            //   title: '登陆成功！',
-            //   duration: 1000
-            // })
           } catch(e) {
             console.error(e)
           }

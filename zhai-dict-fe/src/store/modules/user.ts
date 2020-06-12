@@ -52,7 +52,7 @@ const actions = {
         durationKeepAfterRecite: config.durationKeepAfterRecite,
         tipsDuration: config.tipsDuration,
         timesToChangeBackground: config.timesToChangeBackground,
-        imagesType: config.imagesType,
+        imagesType: config.imageType,
         // transitionType: config.transitionType,
       })
     }

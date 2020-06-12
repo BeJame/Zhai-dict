@@ -6,7 +6,7 @@ const state = () => ({
   imagesList: (() => {
     const arr: Array<String> = []
     for(let i = 1; i <= 10; i++) {
-      arr.push(`https://test-fe.obs.cn-east-2.myhuaweicloud.com/images/comic/${i}.jpg`)
+      arr.push(`https://test-fe.obs.cn-east-2.myhuaweicloud.com/images/magazine/image${i}.jpg`)
     }
     return arr
   })(),

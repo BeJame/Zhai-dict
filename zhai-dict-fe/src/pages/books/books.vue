@@ -123,7 +123,7 @@ export default {
             })
             console.timeEnd('保存')
             Taro.showLoading({
-              title: '(3/4)初始化中'
+              title: '(3/4)进度同步'
             })
             console.time('初始化')
             await this.$store.dispatch('progress/initTotalProgress')
@@ -153,11 +153,18 @@ export default {
     },
     onNowPickerChange(e) {
       // TODO: 临时用两数之和
+      Taro.showLoading({
+        title: '修改中'
+      })
       this.$store.commit('user/assignConfig', {
         amountPerDay: this.amountList[e.detail.value[0]] + this.amountList[e.detail.value[1]]
       })
       this.$store.dispatch('progress/updateTodayData', true)
       this.$store.dispatch('user/syncSettingAndConfig', true)
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '修改完成！'
+      })
     }
   },
   async created() {

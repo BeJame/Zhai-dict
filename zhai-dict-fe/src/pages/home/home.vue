@@ -23,7 +23,7 @@
         </view>
       </view>
       <view class="book-card">
-        <text class="title">普通单词</text>
+        <text class="title">{{ bookName }}</text>
         <view class="btn-change" @tap="handleTapChangePlan">更改</view>
         <view class="progress-area">
           <view class="progress-text">
@@ -78,6 +78,15 @@ export default {
     },
     totalAmount() {
       return this.$store.getters['progress/totalAmount']
+    },
+    bookName() {
+      // 暂时写死
+      switch (this.$store.state.user.config.bookId) {
+        case 1: return 'CET-4 | 四级单词'
+        case 2: return 'CET-6 | 六级单词'
+        case 3: return 'TEM-8 | 专业八级单词'
+        default: return '其他单词'
+      }
     }
   },
   methods: {

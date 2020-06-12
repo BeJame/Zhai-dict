@@ -82,12 +82,17 @@ const actions = {
     console.log('>>>昨天已经背完单词或还没有跨天')
   },
   async initTotalProgress({ rootState, commit }) {
-    // TODO: sync from cloud
-    const initTotal: Array<any> = rootState.resource.vocabulary.map((item: any) => ({
-      word: item.content,
-      level: 0,
-    }))
-    commit('setTotalProgress', initTotal)
+    const { recordList } = await Api.getRecord()
+    if (!recordList?.length) {
+      console.warn('云端无历史记录')
+      const initTotal: Array<any> = rootState.resource.vocabulary.map((item: any) => ({
+        word: item.content,
+        level: 0,
+      }))
+      commit('setTotalProgress', initTotal)
+    } else {
+      commit('setTotalProgress', recordList)
+    }
   },
   async fetchWordProgress({ commit }) {
     const res = await Api.getRecord()
