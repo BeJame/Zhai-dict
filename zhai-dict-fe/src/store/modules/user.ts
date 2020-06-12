@@ -15,7 +15,7 @@ const state = () => ({
     tipsDuration: 1000, //提示弹窗的展示时长（ms）
     // howToDealWithTips: 1, // 点击跳过后如何处理 1:再次拼写正确后算作熟练度+1；2:不增加熟练度
     timesToChangeBackground: 1, //背多少个单词换一次背景图
-    imagesType: '二次元', // 图片集类型
+    imageType: '二次元', // 图片集类型
     transitionType: '透明度渐变', // 渐变方式
   },
   collection: [] // 单词收藏
@@ -31,7 +31,7 @@ const getters = {
 const actions = {
   async fetchCollection({ commit }) {
     const res = await Api.getCollection()
-    if (res.collection.wordsCollection?.length) {
+    if (res.collection?.wordsCollection?.length) {
       const arr = res.collection.wordsCollection.split(';')
       commit('setCollection', arr)
     } else {
@@ -52,8 +52,8 @@ const actions = {
         durationKeepAfterRecite: config.durationKeepAfterRecite,
         tipsDuration: config.tipsDuration,
         timesToChangeBackground: config.timesToChangeBackground,
-        imagesType: config.imageType,
-        // transitionType: config.transitionType,
+        imageType: config.imageType,
+        transitionType: config.transitionType,
       })
     }
   },

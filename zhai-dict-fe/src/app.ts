@@ -48,7 +48,7 @@ const App = new Vue({
     // 首次打开小程序，缓存为空
     if (store.state.progress.totalProgress.length === 0) {
       Taro.showLoading({
-        title: '同步词库与记录...'
+        title: '同步词库记录...'
       })
       // 同步配置与设置
       await store.dispatch('user/fetchSettingAndConfig')

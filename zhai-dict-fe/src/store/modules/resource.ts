@@ -30,7 +30,7 @@ const actions = {
   async fetchImageList({ commit, rootState }) {
     const res = await Api.getImageType()
     if (res.typeList) {
-      const urls = res.typeList.find(item => item.description === rootState.user.settings.imagesType || '二次元').urls
+      const urls = res.typeList.find(item => item.description === rootState.user.settings.imageType || '二次元').urls
       commit('setImagesList', urls)
     }
   },

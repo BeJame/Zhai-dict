@@ -47,7 +47,7 @@
       </navigator>
     </view>
     <view class="footer">
-      <view>v1.4.2 | copyright&copy;云玩家All rights reserved.</view>
+      <view>v1.4.3 | copyright&copy;云玩家All rights reserved.</view>
     </view>
   </view>
 </template>
@@ -62,7 +62,7 @@ import iconRight from '../../../assets/images/icon_right.png'
 import book1 from '../../../assets/images/book1.png'
 import book2 from '../../../assets/images/book2.png'
 import book4 from '../../../assets/images/book4.png'
-import testAvatar from '../../../assets/images/test-avatar.svg'
+// import testAvatar from '../../../assets/images/test-avatar.svg'
 
 export default {
   name: 'pageMe',
@@ -78,7 +78,7 @@ export default {
         book1,
         book2,
         book4,
-        testAvatar
+        // testAvatar
       }
     }
   },

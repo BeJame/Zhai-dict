@@ -103,7 +103,7 @@ export default {
         durationKeepAfterRecite: s[0] * 1000, //单词拼写完成后停留多长时间（ms）
         tipsDuration: s[1] * 1000, //提示弹窗的展示时长（ms）
         timesToChangeBackground: s[2], //背多少个单词换一次背景图
-        imagesType: s[3], // 图片集类型
+        imageType: s[3], // 图片集类型
         transitionType: s[4], // 渐变方式
       })
       this.$store.commit('resource/setImagesList', this.imageUrlList[this.selectedIndexes[3]])
