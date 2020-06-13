@@ -43,7 +43,7 @@
       </navigator>
     </view>
     <view class="footer">
-      <view>v1.4.4 | copyright&copy;云玩家All rights reserved.</view>
+      <view>v1.4.5 | copyright&copy;云玩家All rights reserved.</view>
     </view>
   </view>
 </template>

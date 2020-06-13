@@ -109,6 +109,7 @@ export default {
       this.$store.dispatch('resource/fetchFirstBackground')
       try {
         await this.$store.dispatch('user/syncSettingAndConfig')
+        Taro.hideLoading()
         Taro.showToast({
           title: '修改成功！',
           success() {
@@ -117,7 +118,8 @@ export default {
             }, 1000);
           }
         })
-      } finally {
+      } catch(e) {
+        console.error(e)
         Taro.hideLoading()
       }
     }

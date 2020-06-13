@@ -10,7 +10,7 @@
       <view class="learning-body">
         <view class="title">{{ learningBook.name }}</view>
         <view class="plan">
-          每日新学<text id="number"> {{ userConfig.amountPerDay }} </text>词
+          每日学习<text id="number"> {{ userConfig.amountPerDay }} </text>词
           <picker mode="multiSelector" @ :value="userConfig.amountPerDay"
             :range="[amountList, amountList]" header-text="修改后今日进度将会清零"
             @change="onNowPickerChange"
@@ -106,20 +106,23 @@ export default {
         })
         if (confirm) {
           Taro.showLoading({
-            title: '上传进度中...'
+            title: '(1/5)上传进度',
+            mask: true
           })
           console.time('同步旧记录')
           await this.$store.dispatch('progress/updateTodayData', true) // 同步之前的记录
           console.timeEnd('同步旧记录')
           console.time('下载')
           Taro.showLoading({
-            title: '(1/4)下载中'
+            title: '(2/5)下载中',
+            mask: true
           })
           const res = await Api.getBook(this.bookList[index].bookId)
           console.timeEnd('下载')
           if (res) {
             Taro.showLoading({
-              title: '(2/4)保存中'
+              title: '(3/5)保存中',
+              mask: true
             })
             console.time('保存')
             // TODO: 数量过多会卡死
@@ -129,13 +132,15 @@ export default {
             })
             console.timeEnd('保存')
             Taro.showLoading({
-              title: '(3/4)进度同步'
+              title: '(4/5)进度同步',
+              mask: true
             })
             console.time('初始化')
             await this.$store.dispatch('progress/initTotalProgress')
             console.timeEnd('初始化')
             Taro.showLoading({
-              title: '(4/4)更新中'
+              title: '(5/5)更新中',
+              mask: true
             })
             console.time('更新单词')
             await this.$store.dispatch('progress/updateTodayData', true)
@@ -143,7 +148,7 @@ export default {
             this.$store.dispatch('user/syncSettingAndConfig')
             Taro.hideLoading()
             Taro.showToast({
-              title: '更新完成',
+              title: '更换完成',
               duration: 1500
             })
           } else {
@@ -162,7 +167,8 @@ export default {
     onNowPickerChange(e) {
       // TODO: 临时用两数之和
       Taro.showLoading({
-        title: '修改中'
+        title: '修改中',
+        mask: true
       })
       this.$store.commit('user/assignConfig', {
         amountPerDay: this.amountList[e.detail.value[0]] + this.amountList[e.detail.value[1]]
