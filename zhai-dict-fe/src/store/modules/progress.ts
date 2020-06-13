@@ -83,7 +83,7 @@ const actions = {
   },
   async initTotalProgress({ rootState, commit }) {
     const { recordList } = await Api.getRecord()
-    if (!recordList?.length) {
+    if (!recordList?.recordList?.length) {
       console.warn('云端无历史记录')
       const initTotal: Array<any> = rootState.resource.vocabulary.map((item: any) => ({
         word: item.content,
@@ -91,13 +91,15 @@ const actions = {
       }))
       commit('setTotalProgress', initTotal)
     } else {
-      commit('setTotalProgress', recordList)
+      commit('setTotalProgress', recordList.recordList)
     }
   },
   async fetchWordProgress({ commit }) {
-    const res = await Api.getRecord()
-    if (res.recordList){
-      commit('setTotalProgress', res.recordList)
+    const { recordList } = await Api.getRecord()
+    if (recordList?.recordList?.length){
+      commit('setTotalProgress', recordList.recordList)
+    } else {
+      console.warn('云端无历史记录')
     }
   },
   async syncWordProgress({ state }) {
@@ -129,17 +131,14 @@ const mutations = {
   clearValidDate(state: any) {
     return state.validDate = ''
   },
-  _updateTotalProgress(state: any, { words, date }: { words: Array<string>, date: string }) {
-    // const learnedWords: Array<any> = state.totalProgress.filter(item => item.level !== 0 && item.level !== 4)
-    // console.log('learnedWords', learnedWords)
-    // console.log('words', words)
+  _updateTotalProgress(state: any, { words, date = state.validDate }: { words: Array<string>, date?: string }) {
     words.forEach(word => {
       const index = state.totalProgress.findIndex(item => item.word === word)
       if (index >= 0) {
         state.totalProgress[index].date = date
         state.totalProgress[index].level += 1
       } else {
-        throw new Error('cannot find word in history!!')
+        throw new Error('cannot find word(' + word +') in history!')
       }
     })
   }

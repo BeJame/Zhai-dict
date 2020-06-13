@@ -219,7 +219,7 @@ export default {
   },
   created() {
     console.log('state', this.$store.state)
-    this.bgImageUrl = this.$store.state.resource.firstBackground // 用启动时预加载的图片
+    this.bgImageUrl = this.$store.state.resource.firstBackground || this.$store.getters['resource/getImages'](1)[0] // 用启动时预加载的图片
     this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
     const target = this.$store.state.progress.todayWords,
       progress = this.$store.state.progress.todayProgress,

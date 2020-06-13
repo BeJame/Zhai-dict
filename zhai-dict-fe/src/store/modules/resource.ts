@@ -1,4 +1,5 @@
 import Api from '../../api/index'
+import Taro from '@tarojs/taro'
 import { getRandomInt } from '../../../utils/util'
 
 const state = () => ({
@@ -39,6 +40,13 @@ const actions = {
     if (res) {
       commit('setVocabulary', res)
     }
+  },
+  async fetchFirstBackground({ commit, getters }) {
+    const src = getters.getImages(1)[0]
+    await Taro.getImageInfo({
+      src
+    })
+    commit('setFirstBackground', src)
   }
 }
 
@@ -51,6 +59,7 @@ const mutations = {
     state.vocabulary = data
   },
   setFirstBackground(state: any, data: string) {
+    const index = getRandomInt(0, state.imagesList.length - 1)
     state.firstBackground = data
   },
 }

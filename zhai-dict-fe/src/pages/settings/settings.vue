@@ -30,11 +30,10 @@
       </picker>
     </view>
     <view class="column-picker">
-      <!-- FIXME: 下方两个 || -->
       <picker mode='selector' :value="selectedIndexes[3]" :range="options[3]" @change="onPickerChange($event, 3)">
         <view class="picker-wrapper">
           <text class="item">背景图片集类型</text>
-          <text class="value">{{ settings[3] || '风景图片' }}</text>
+          <text class="value">{{ settings[3] }}</text>
         </view>
       </picker>
     </view>
@@ -42,7 +41,7 @@
       <picker mode='selector' :value="selectedIndexes[4]" :range="options[4]" @change="onPickerChange($event, 4)">
         <view class="picker-wrapper">
           <text class="item">渐变方式</text>
-          <text class="value">{{ settings[4] || '透明度渐变' }}</text>
+          <text class="value">{{ settings[4] }}</text>
         </view>
       </picker>
     </view>
@@ -107,6 +106,7 @@ export default {
         transitionType: s[4], // 渐变方式
       })
       this.$store.commit('resource/setImagesList', this.imageUrlList[this.selectedIndexes[3]])
+      this.$store.dispatch('resource/fetchFirstBackground')
       try {
         await this.$store.dispatch('user/syncSettingAndConfig')
         Taro.showToast({

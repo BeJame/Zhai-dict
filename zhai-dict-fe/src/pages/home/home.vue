@@ -117,13 +117,7 @@ export default {
   },
   onLoad() {
     // 解决首张图片加载问题
-    const bg = this.$store.getters['resource/getImages'](1)[0]
-    Taro.getImageInfo({
-      src: bg,
-      success: () => {
-        this.$store.commit('resource/setFirstBackground', bg)
-      }
-    })
+    this.$store.dispatch('resource/fetchFirstBackground')
   }
 }
 </script>

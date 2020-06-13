@@ -105,6 +105,12 @@ export default {
           content: '即将更换单词书为《' + this.bookList[index].name + '》，是否确认？',
         })
         if (confirm) {
+          Taro.showLoading({
+            title: '上传进度中...'
+          })
+          console.time('同步旧记录')
+          await this.$store.dispatch('progress/updateTodayData', true) // 同步之前的记录
+          console.timeEnd('同步旧记录')
           console.time('下载')
           Taro.showLoading({
             title: '(1/4)下载中'
@@ -142,14 +148,16 @@ export default {
             })
           } else {
             Taro.hideLoading()
-            Taro.showToast({
-              title: '更新出错',
-              duration: 3000,
-              icon: 'none'
+            Taro.showModal({
+              title: '错误',
+              content: '下载单词书出错，请重试'
             })
           }
         }
-      } catch {}
+      } catch(e) {
+        console.error(e)
+        Taro.hideLoading()
+      }
     },
     onNowPickerChange(e) {
       // TODO: 临时用两数之和
