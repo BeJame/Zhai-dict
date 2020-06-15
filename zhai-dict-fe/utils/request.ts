@@ -22,7 +22,7 @@ const interceptor = function (chain) {
       } else {
         Taro.showToast({
           icon: 'none',
-          title: '错误：' + res.data.msg,
+          title: res.data.code + '错误：' + res.data.msg || '',
           duration: 3000
         })
         return Promise.reject(res)

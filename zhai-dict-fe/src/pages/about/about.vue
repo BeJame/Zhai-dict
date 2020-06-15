@@ -15,7 +15,8 @@
     <view class="block">
       <view class="title">致谢</view>
       <view class="content">
-        感谢 咩咩单词@mieruko0713/airingursb、福利单词@easychen 提供的部分开源代码和灵感
+        <view>感谢：咩咩单词@mieruko0713/airingursb、福利单词@easychen 提供的部分开源代码和灵感。</view>
+        <view>图片收集于互联网，部分来自 https://www.zhihu.com/question/59157829</view>
       </view>
     </view>
     <view class="block">

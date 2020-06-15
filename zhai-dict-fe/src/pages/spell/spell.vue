@@ -103,15 +103,24 @@ export default {
       } else if (this.userInput.length < this.display.word.length) {
         this.userInput += ch
       }
-      const input =  this.userInput
-      if (this.display.word.toLowerCase().startsWith(input)) {
-        this.bgRatio = input.length / this.display.word.length
+      const input =  this.userInput,
+            theWord = this.display.word.toLowerCase()
+      // 提示要输入首字母
+      if (input.length === 1 && input[0] !== theWord[0] && input[0] == theWord[1] ) {
+        Taro.showToast({
+          title: '首字母和末字母也要输入哦',
+          duration: 2000,
+          icon: 'none'
+        })
+      }
+      if (theWord.startsWith(input)) {
+        this.bgRatio = input.length / theWord.length
         if (this.isUsingBlur) {
           // 设置了模糊渐变
           this.$refs.bg.style.filter = `blur(${10 - this.bgRatio * 10}px)`
         }
         // onFinishSpelling
-        if (this.display.word.length === input.length) {
+        if (theWord.length === input.length) {
           this.display.mastered = true
           const time = this.settings.durationKeepAfterRecite
           setTimeout(() => {
@@ -218,7 +227,6 @@ export default {
     },
   },
   created() {
-    console.log('state', this.$store.state)
     this.bgImageUrl = this.$store.state.resource.firstBackground || this.$store.getters['resource/getImages'](1)[0] // 用启动时预加载的图片
     this.bgImageUrlNext = this.$store.getters['resource/getImages'](1)[0]
     const target = this.$store.state.progress.todayWords,
